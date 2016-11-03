@@ -8,7 +8,7 @@ public class GameServer extends Thread{
 
   public GameServer(int port) throws IOException{
     serverSocket = new ServerSocket(port);
-    serverSocket.setSoTimeout(10000);
+    serverSocket.setSoTimeout(120000);
   }//close constructor
 
 
@@ -19,17 +19,24 @@ public class GameServer extends Thread{
    new Thread(){
      public void run(){
         while(true){
+          //wait for connections
           try{
             final Socket server = serverSocket.accept();
+            System.out.println("connected");
             clients.add(server);
+            //another thread for every connection to receive
             new Thread(){
               public void run(){
                 try{
-                  DataInputStream in = new DataInputStream(server.getInputStream());
-                  System.out.println(in.readUTF());
-
-                  for(Socket s : clients){
-                    DataOutputStream out = new DataOutputStream(s.getOutputStream());
+                  while(true){
+                    DataInputStream in = new DataInputStream(server.getInputStream());
+                    System.out.println(in.readUTF());
+                    for(Socket s : clients){
+                      if(s != server){
+                        DataOutputStream out = new DataOutputStream(s.getOutputStream());
+                        out.writeUTF(in.readUTF());
+                      }
+                    }
                   }
                 }catch(Exception e){
                   e.printStackTrace();
@@ -40,38 +47,9 @@ public class GameServer extends Thread{
           }catch(Exception e){
             e.printStackTrace();
           }
-        }
-     }
+        }//close while
+     }//close run
    }.start();
-
-    // boolean connected = true;
-    //
-    // while(connected){
-    //    try{
-    //       /* Start accepting data from the ServerSocket */
-    //       serverSocket = new ServerSocket(serverSocket.getLocalPort());
-    //       Socket server = serverSocket.accept();
-    //       System.out.println("Just connected to " + server.getRemoteSocketAddress());
-    //
-    //       /* Read data from the ClientSocket */
-    //       DataInputStream in = new DataInputStream(server.getInputStream());
-    //       System.out.println(in.readUTF());
-    //
-    //       DataOutputStream out = new DataOutputStream(server.getOutputStream());
-    //
-    //       /* Send data to the ClientSocket */
-    //       out.writeUTF("Thank you for connecting to " + server.getLocalSocketAddress() + "\nGoodbye!");
-    //       server.close();
-    //       connected = false;
-    //       System.out.println("Server ended the connection to "+ server.getRemoteSocketAddress());
-    //    }catch(SocketTimeoutException s){
-    //       System.out.println("Socket timed out!");
-    //       break;
-    //    }catch(IOException e){
-    //       System.out.println("Usage: java GreetingServer <port no.>");
-    //       break;
-    //    }
-    // }//close while
  }//close run
 
   public static void main(String args[]) {

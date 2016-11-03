@@ -13,6 +13,7 @@ public class GameClient{
             System.out.println("Connecting to " + serverName + " on port " + port);
             final Socket client = new Socket(serverName, port);
 
+            //Thread for scanning line to be sent to the server
             new Thread(){
               public void run(){
                 try{
@@ -33,13 +34,14 @@ public class GameClient{
               }
             }.start();
 
+            //Thread for receiving lines sent by the server
             new Thread(){
               public void run(){
                 try{
                   while(true){
                     InputStream inFromServer = client.getInputStream();
                     DataInputStream in = new DataInputStream(inFromServer);
-                    System.out.println("Someone said " + in.readUTF());
+                    System.out.println(in.readUTF());
                   }
                 }catch(Exception e){
                   try{
