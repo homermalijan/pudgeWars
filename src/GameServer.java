@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 public class GameServer extends Thread{
   //class attributes
+  private LinkedList<Socket> clients = new LinkedList<Socket>();
   private ServerSocket serverSocket;
 
   public GameServer(int port) throws IOException{
@@ -13,39 +14,41 @@ public class GameServer extends Thread{
 
 
  public void run(){
-   final LinkedList<Socket> clients = new LinkedList<Socket>();
-
    System.out.println("listening at port " + serverSocket.getLocalPort() + "...");
    new Thread(){
      public void run(){
+
         while(true){
           //wait for connections
           try{
-            final Socket server = serverSocket.accept();
-            System.out.println("connected");
-            clients.add(server);
-            //another thread for every connection to receive
+            final Socket client = serverSocket.accept();
+            System.out.println(client.getRemoteSocketAddress() + "connected...");
+            clients.add(client);
+
+            //another thread for every connection to receive messages
             new Thread(){
               public void run(){
                 try{
                   while(true){
-                    DataInputStream in = new DataInputStream(server.getInputStream());
-                    System.out.println(in.readUTF());
+                    DataInputStream in = new DataInputStream(client.getInputStream());
+                    String message = in.readUTF();
+                    System.out.println(message);
+                    // System.out.println(client.getLocalSocketAddress());
                     for(Socket s : clients){
-                      if(s != server){
-                        DataOutputStream out = new DataOutputStream(s.getOutputStream());
-                        out.writeUTF(in.readUTF());
-                      }
-                    }
-                  }
+                      DataOutputStream out = new DataOutputStream(s.getOutputStream());
+                      out.writeUTF(message);
+                      out.flush();
+                    }//close for
+                    System.out.println();
+                  }//close while
                 }catch(Exception e){
+                  System.out.println("kingina ko");
                   e.printStackTrace();
                 }
-              }
+              }//close run
             }.start();
-
           }catch(Exception e){
-            e.printStackTrace();
+            System.out.println("Socket Timed Out");
           }
         }//close while
      }//close run

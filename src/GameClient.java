@@ -6,6 +6,7 @@ public class GameClient{
     public static void main(String [] args){
         final Scanner sc = new Scanner(System.in);
         try{
+            final String username = args[2];
             String serverName = args[0]; //get IP address of server from first param
             int port = Integer.parseInt(args[1]); //get port from second param
 
@@ -14,7 +15,7 @@ public class GameClient{
             final Socket client = new Socket(serverName, port);
 
             //Thread for scanning line to be sent to the server
-            new Thread(){
+            Thread send = new Thread(){
               public void run(){
                 try{
                   while(true){
@@ -22,7 +23,8 @@ public class GameClient{
                     String message = sc.nextLine();
                     OutputStream outToServer = client.getOutputStream();
                     DataOutputStream out = new DataOutputStream(outToServer);
-                    out.writeUTF("Client " + client.getLocalSocketAddress()+" says: " + message);
+                    out.writeUTF("\n" + username + ": " + message);
+                    out.flush();
                   }
                 }catch(Exception e){
                   try{
@@ -32,7 +34,8 @@ public class GameClient{
                   }
                 }
               }
-            }.start();
+            };
+            send.start();
 
             //Thread for receiving lines sent by the server
             new Thread(){
@@ -41,11 +44,11 @@ public class GameClient{
                   while(true){
                     InputStream inFromServer = client.getInputStream();
                     DataInputStream in = new DataInputStream(inFromServer);
-                    System.out.println(in.readUTF());
+                    while(true) System.out.println(in.readUTF());
                   }
                 }catch(Exception e){
                   try{
-                      client.close();
+                    client.close();
                   }catch(Exception e2){
                     e2.printStackTrace();
                   }
