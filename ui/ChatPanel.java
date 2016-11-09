@@ -19,10 +19,9 @@ public class ChatPanel extends JPanel implements KeyListener {
 		this.input = new JTextField("Message here.");
 		this.output = new JLabel("Output here.");
 
-		this.add(input);
 		this.add(output);
+		this.add(input);
 	}
-
 
 	public void keyTyped(KeyEvent e) {}
 	public void keyPressed(KeyEvent e) {}

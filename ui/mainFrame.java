@@ -10,6 +10,7 @@ public class MainFrame extends JFrame implements WindowListener {
 
 	private Container container;
 	private MainPanel mainPanel;
+	// private Frog frog;
 
 	public MainFrame(String title){
 		super(title);
@@ -17,7 +18,10 @@ public class MainFrame extends JFrame implements WindowListener {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		this.mainPanel = new MainPanel();
+		// this.frog = new Frog();
+
 		this.setContentPane(mainPanel);
+		// this.setContentPane(frog);
 		this.addWindowListener(this);
 
 		this.pack();
