@@ -9,15 +9,15 @@ public class MainFrame extends JFrame implements WindowListener {
 
 
 	private Container container;
-	private JPanel mainPanel;
+	private MainPanel mainPanel;
 
 	public MainFrame(String title){
 		super(title);
 		this.setPreferredSize(new Dimension(800,600));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		this.container = this.getContentPane();
-		this.mainPanel = new JPanel();
+		this.mainPanel = new MainPanel();
+		this.setContentPane(mainPanel);
 		this.addWindowListener(this);
 
 		this.pack();

@@ -7,8 +7,8 @@ import javax.imageio.*;
 
 public class MainPanel extends JPanel {
 
-	private JPanel gamePanel;
-	private JPanel chatPanel;
+	private GamePanel gamePanel;
+	private ChatPanel chatPanel;
 
 	public MainPanel() {
 		super(new BorderLayout());
@@ -16,12 +16,11 @@ public class MainPanel extends JPanel {
 	}
 
 	public void setComponents() {
-		this.gamePanel = new JPanel();
-		this.chatPanel = new JPanel();
+		this.gamePanel = new GamePanel();
+		this.chatPanel = new ChatPanel();
 
 		this.add(gamePanel, BorderLayout.CENTER);
 		this.add(chatPanel, BorderLayout.SOUTH);
 	}
-
 
 }
