@@ -12,7 +12,6 @@ public class GameServer extends Thread{
     serverSocket.setSoTimeout(120000);
   }//close constructor
 
-
  public void run(){
    System.out.println("listening at port " + serverSocket.getLocalPort() + "...");
    new Thread(){
