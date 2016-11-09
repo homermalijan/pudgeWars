@@ -28,7 +28,7 @@ public class GameClient{
                   }
                 }catch(Exception e){
                   try{
-                      client.close();
+                    client.close();
                   }catch(Exception e2){
                     e2.printStackTrace();
                   }
@@ -55,15 +55,10 @@ public class GameClient{
                 }
               }
             }.start();
-
-            /* Receive data from the ServerSocket */
-
-            //insert missing line for closing the socket from the client side
         }catch(IOException e){
-            e.printStackTrace();
             System.out.println("Cannot find (or disconnected from) Server");
         }catch(ArrayIndexOutOfBoundsException e){
-            System.out.println("Usage: java GreetingClient <server ip> <port no.> '<your message to the server>'");
+            System.out.println("Usage: java GameClient <server ip> <port no.> <username>");
         }
     }
 }

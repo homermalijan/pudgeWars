@@ -33,7 +33,6 @@ public class GameServer extends Thread{
                     DataInputStream in = new DataInputStream(client.getInputStream());
                     String message = in.readUTF();
                     System.out.println(message);
-                    // System.out.println(client.getLocalSocketAddress());
                     for(Socket s : clients){
                       DataOutputStream out = new DataOutputStream(s.getOutputStream());
                       out.writeUTF(message);
@@ -42,7 +41,7 @@ public class GameServer extends Thread{
                     System.out.println();
                   }//close while
                 }catch(Exception e){
-                  System.out.println("kingina ko");
+                  System.exit(1);
                   e.printStackTrace();
                 }
               }//close run
