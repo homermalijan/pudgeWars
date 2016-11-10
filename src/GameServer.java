@@ -21,7 +21,8 @@ public class GameServer extends Thread{
           //wait for connections
           try{
             final Socket client = serverSocket.accept();
-            System.out.println(client.getRemoteSocketAddress() + "connected...");
+            DataInputStream in = new DataInputStream(client.getInputStream());
+            System.out.println(client.getRemoteSocketAddress() + " connected as " + in.readUTF());
             clients.add(client);
 
             //another thread for every connection to receive messages
