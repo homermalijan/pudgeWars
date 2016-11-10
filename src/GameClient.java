@@ -10,8 +10,9 @@ public class GameClient{
     JFrame gameFrame = new JFrame("Frog Wars");
     Container gameContainer = gameFrame.getContentPane();
     gameContainer.setLayout(new BorderLayout());
-    // JPanel gamePanel = new JPanel();
+    GamePanel gamePanel = new GamePanel();
     JPanel chatPanel = new JPanel();
+    // Frog frog = new Frog();
     final JTextArea chatDump = new JTextArea(3,400);
     chatDump.setEditable(false);
     final JScrollPane chatScroll = new JScrollPane(chatDump);
@@ -89,8 +90,9 @@ public class GameClient{
     chatPanel.setPreferredSize(new Dimension(780,100));
     chatPanel.add(chatScroll, BorderLayout.CENTER);
     chatPanel.add(chatInput, BorderLayout.SOUTH);
+    
     gameContainer.add(chatPanel, BorderLayout.SOUTH);
-    //gameContainer.add(gamePanel, BorderLayout.Center);
+    gameContainer.add(gamePanel, BorderLayout.CENTER);
     gameFrame.pack();
     gameFrame.setVisible(true);
   }//close main
