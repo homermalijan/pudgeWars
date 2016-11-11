@@ -87,7 +87,7 @@ public class GameClient{
 	
 	Game game = new Game();
 	
-	//gamePanel.add(game);
+	gamePanel.add(game);
 	
 	
 	
