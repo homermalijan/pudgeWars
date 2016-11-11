@@ -10,15 +10,22 @@ public class GameClient{
     JFrame gameFrame = new JFrame("Frog Wars");
     Container gameContainer = gameFrame.getContentPane();
     gameContainer.setLayout(new BorderLayout());
+<<<<<<< HEAD
      JPanel gamePanel = new JPanel();
+=======
+
+    // JPanel gamePanel = new JPanel();
+>>>>>>> dd77fd1d96f6de982169b3a1bc947c5f9f32e660
     JPanel chatPanel = new JPanel();
+
     final JTextArea chatDump = new JTextArea(3,400);
-    chatDump.setEditable(false);
     final JScrollPane chatScroll = new JScrollPane(chatDump);
     final JTextField chatInput = new JTextField();
-    chatInput.setPreferredSize(new Dimension(780,20));
-    final Scanner sc = new Scanner(System.in);
 
+    // chatScroll.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
+    // charScroll.setverticalScrollBarPolicy(VERTICAL_SCROLLBAR_AS_NEEDED);
+    chatDump.setEditable(false);
+    chatInput.setPreferredSize(new Dimension(780,20));
     gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gameFrame.setPreferredSize(new Dimension(800,500));
 
@@ -30,9 +37,19 @@ public class GameClient{
         /* Open a ClientSocket and connect to ServerSocket */
         System.out.println("Connecting to " + serverName + " on port " + port);
         final Socket client = new Socket(serverName, port);
+        System.out.println("Connected as " + username);
+
+        try{
+          OutputStream outToServer = client.getOutputStream();
+          DataOutputStream out = new DataOutputStream(outToServer);
+          out.writeUTF(username);
+        }catch(Exception e){
+          e.printStackTrace();
+        }
 
         //=============================================================
         //chat send
+        //=============================================================
         chatInput.addActionListener(
           new ActionListener(){
             public void actionPerformed(ActionEvent event){
@@ -40,7 +57,7 @@ public class GameClient{
                 String message = event.getActionCommand();
                 OutputStream outToServer = client.getOutputStream();
                 DataOutputStream out = new DataOutputStream(outToServer);
-                out.writeUTF("\n" + username + ": " + message);
+                out.writeUTF(username + ": " + message);
                 out.flush();
               }catch(Exception e){
                 try{
@@ -52,10 +69,12 @@ public class GameClient{
               // System.out.println(e.getActionCommand());
               chatInput.setText("");
             }
-          }
+          }//close actionlistener
         );//close chat input action listener
-        //=============================================================
 
+        //=============================================================
+        //chat recieve ; append to text area
+        //=============================================================
         //Thread for receiving lines sent by the server
         new Thread(){
           public void run(){
@@ -74,11 +93,11 @@ public class GameClient{
                 e2.printStackTrace();
               }
             }
-          }
-        }.start();
+          }//close run
+        }.start();//close thread for receiving messages
     }catch(IOException e){
         System.out.println("Cannot find (or disconnected from) Server");
-        // System.exit(1);
+        System.exit(1);
     }catch(ArrayIndexOutOfBoundsException e){
         System.out.println("Usage: java GameClient <server ip> <port no.> <username>");
         System.exit(1);
