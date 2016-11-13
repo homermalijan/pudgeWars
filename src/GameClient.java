@@ -10,20 +10,13 @@ public class GameClient{
     JFrame gameFrame = new JFrame("Frog Wars");
     Container gameContainer = gameFrame.getContentPane();
     gameContainer.setLayout(new BorderLayout());
-<<<<<<< HEAD
-     JPanel gamePanel = new JPanel();
-=======
-
-    // JPanel gamePanel = new JPanel();
->>>>>>> dd77fd1d96f6de982169b3a1bc947c5f9f32e660
+    JPanel gamePanel = new JPanel();
     JPanel chatPanel = new JPanel();
 
     final JTextArea chatDump = new JTextArea(3,400);
     final JScrollPane chatScroll = new JScrollPane(chatDump);
     final JTextField chatInput = new JTextField();
 
-    // chatScroll.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
-    // charScroll.setverticalScrollBarPolicy(VERTICAL_SCROLLBAR_AS_NEEDED);
     chatDump.setEditable(false);
     chatInput.setPreferredSize(new Dimension(780,20));
     gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -102,23 +95,18 @@ public class GameClient{
         System.out.println("Usage: java GameClient <server ip> <port no.> <username>");
         System.exit(1);
     }
-	
-	
+
+
 	Game game = new Game();
-	
-	//gamePanel.add(game);
-	
-	
-	
-    chatPanel.setLayout(new BorderLayout());
-    chatPanel.setPreferredSize(new Dimension(780,100));
-    chatPanel.add(chatScroll, BorderLayout.CENTER);
-    chatPanel.add(chatInput, BorderLayout.SOUTH);
-    gameContainer.add(chatPanel, BorderLayout.SOUTH);
-    gameContainer.add(game, BorderLayout.CENTER);
-    gameFrame.pack();
-    gameFrame.setVisible(true);
-		
-	game.start();	  
+  chatPanel.setLayout(new BorderLayout());
+  chatPanel.setPreferredSize(new Dimension(780,100));
+  chatPanel.add(chatScroll, BorderLayout.CENTER);
+  chatPanel.add(chatInput, BorderLayout.SOUTH);
+  gameContainer.add(chatPanel, BorderLayout.SOUTH);
+  gameContainer.add(game, BorderLayout.CENTER);
+  gameFrame.pack();
+  gameFrame.setVisible(true);
+
+	game.start();
   }//close main
 }//close main
