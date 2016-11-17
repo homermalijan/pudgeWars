@@ -9,6 +9,7 @@ public class GameServer extends Thread{
   private ServerSocket serverSocket;
   private DatagramSocket udpSocket;
   private DatagramSocket moveSocket;
+
   public GameServer(int port) throws IOException{
     serverSocket = new ServerSocket(port);
     udpSocket = new DatagramSocket(port+1);
@@ -57,6 +58,7 @@ public class GameServer extends Thread{
      }//close run
    }.start();
 
+   //threads for receiving connection (saving addresses)
    new Thread(){
      public void run(){
         while(true){
@@ -79,6 +81,33 @@ public class GameServer extends Thread{
         }//close while
      }//close run
    }.start();
+
+   //thread for receiving and sending client moves over other clients
+   new Thread(){
+     public void run(){
+        while(true){
+          try{
+            byte buffer[] = new byte[256];
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+            moveSocket.receive(packet);
+            String message = new String(buffer, 0, packet.getLength());
+            buffer = message.getBytes();
+            int port = packet.getPort();
+
+            for(InetAddress ia : clientAddresses){
+              if(ia != packet.getAddress())
+              packet = new DatagramPacket(buffer, buffer.length, ia, port);
+              moveSocket.send(packet);
+            }
+
+            System.out.println("Movement Sent to everyone");
+          }catch(Exception err){
+            err.printStackTrace();
+          }
+        }//close while
+     }//close run
+   }.start();
+
  }//close run
 
   public static void main(String args[]) {
