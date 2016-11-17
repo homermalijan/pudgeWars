@@ -6,6 +6,8 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class GameClient{
+  static DatagramSocket socket;
+
   public static void main(String [] args){
     JFrame gameFrame = new JFrame("Frog Wars");
     Container gameContainer = gameFrame.getContentPane();
@@ -24,31 +26,89 @@ public class GameClient{
 
     try{
         final String username = args[2];
-        String serverName = args[0]; //get IP address of server from first param
-        int port = Integer.parseInt(args[1]); //get port from second param
+        final String serverName = args[0]; //get IP address of server from first param
+        final int port = Integer.parseInt(args[1]); //get port from second param
 
         /* Open a ClientSocket and connect to ServerSocket */
         System.out.println("Connecting to " + serverName + " on port " + port);
         final Socket client = new Socket(serverName, port);
         System.out.println("Connected as " + username);
+//
+// //===================================================
+// new Thread(){
+//   public void run(){
+//     try{
+//       byte message[] = new byte[256];
+//       final InetAddress address = InetAddress.getByName(serverName);
+//       System.out.println("connecting to host" + address);
+//       DatagramPacket packet = new DatagramPacket(message, message.length, address, port);
+//       final DatagramSocket socket = new DatagramSocket();
+//       socket.send(packet);
+//       packet = new DatagramPacket(message, message.length);
+//       socket.receive(packet);
+//       String serverWelcome = new String(packet.getData());
+//       System.out.println(serverWelcome);
+//
+//       while(true){
+//         System.out.println("Haller world");
+//         byte buffer[] = new byte[256];
+//         DatagramPacket packet2 = new DatagramPacket(buffer, buffer.length);
+//         socket.receive(packet2);
+//         String msg = new String(packet2.getData());
+//         System.out.println("someone is at " + msg);
+//       }
+//     }catch(Exception ee){
+//       ee.printStackTrace();
+//     }
+//   }
+// }.start();
+// //===================================================
 
-//===================================================
-byte message[] = new byte[256];
-InetAddress address = InetAddress.getByName(serverName);
-System.out.println("connecting to host" + address);
-DatagramPacket packet = new DatagramPacket(message, message.length, address, port+1);
-DatagramSocket socket = new DatagramSocket();
-socket.send(packet);
-packet = new DatagramPacket(message, message.length);
 
-//The receive method of DatagramSocket will indefinitely block until
-//a UDP datagram is received
-socket.receive(packet);
+//=================================================
+new Thread(){
+  public void run(){
+    try{
+      socket = new DatagramSocket();
+      socket.setSoTimeout(100);
+    }catch(Exception e){}
+    boolean connected = false;
+    while(true){
+      byte[] buffer = null;
+      DatagramPacket packet;
+      try{
+        Thread.sleep(1);
+        buffer = new byte[256];
+        packet = new DatagramPacket(buffer, buffer.length);
+        socket.receive(packet);
 
-String serverWelcome = new String(packet.getData());
-System.out.println(serverWelcome);
-socket.close();
-//===================================================
+      }catch(Exception e){}
+      String message = new String(buffer);
+      message = message.trim();
+      if(!connected && message.startsWith("Connected")){
+        connected = true;
+        System.out.println("You are now connected");
+      }else if(!connected){
+        System.out.println("Connecting..");
+        send("Connect " + username);
+      }else if(connected){
+        //===================================================================
+        //sa message nakalagay kung sino yung gumalaw at kung nasan siya
+        if(message!=null && !message.equals("") )System.out.println(message);
+        //===================================================================
+      }
+
+    }
+  }
+}.start();
+//=================================================
+
+
+
+
+
+
+
         try{
           OutputStream outToServer = client.getOutputStream();
           DataOutputStream out = new DataOutputStream(outToServer);
@@ -56,7 +116,6 @@ socket.close();
         }catch(Exception e){
           e.printStackTrace();
         }
-
         //=============================================================
         //chat send
         //=============================================================
@@ -105,6 +164,9 @@ socket.close();
             }
           }//close run
         }.start();//close thread for receiving messages
+
+
+
     }catch(IOException e){
         System.out.println("Cannot find (or disconnected from) Server");
         System.exit(1);
@@ -126,4 +188,13 @@ socket.close();
 
 	game.start();
   }//close main
+
+  public static void send(String msg){
+    try{
+      byte[] buffer = msg.getBytes();
+      InetAddress address = InetAddress.getByName("localhost");
+      DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address, 8081);
+      socket.send(packet);
+    }catch(Exception e){}
+  }
 }//close main

@@ -27,15 +27,8 @@ public class KeyInput extends KeyAdapter{
 
 				//=======================================================================
 				try{
-					InetAddress address = InetAddress.getByName("localhost");
-
-					byte buffer[] = new byte[256];
-					String message = tempObject.getX() + " " + tempObject.getY();
-					buffer = message.getBytes();
-
-					DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address, 8082);
-					DatagramSocket socket = new DatagramSocket();
-					socket.send(packet);
+					String message = tempObject.getId() + " is at " + tempObject.getX() + " " + tempObject.getY();
+					GameClient.send(message);
 				} catch(Exception ee){
 					ee.printStackTrace();
 				}
