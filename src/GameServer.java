@@ -5,10 +5,14 @@ import java.util.LinkedList;
 public class GameServer extends Thread{
   //class attributes
   private LinkedList<Socket> clients = new LinkedList<Socket>();
+  private LinkedList<InetAddress> clientAddresses = new LinkedList<InetAddress>();
   private ServerSocket serverSocket;
-
+  private DatagramSocket udpSocket;
+  private DatagramSocket moveSocket;
   public GameServer(int port) throws IOException{
     serverSocket = new ServerSocket(port);
+    udpSocket = new DatagramSocket(port+1);
+    moveSocket = new DatagramSocket(port+2);
     serverSocket.setSoTimeout(120000);
   }//close constructor
 
@@ -48,6 +52,29 @@ public class GameServer extends Thread{
             }.start();
           }catch(Exception e){
             System.out.println("Socket Timed Out");
+          }
+        }//close while
+     }//close run
+   }.start();
+
+   new Thread(){
+     public void run(){
+        while(true){
+          try{
+            byte buffer[] = new byte[256];
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+            udpSocket.receive(packet);
+            System.out.print("Request received...sending time...");
+            String message = "\nWelcome to Frog Wars";
+            buffer = message.getBytes();
+            InetAddress address = packet.getAddress();
+            clientAddresses.add(address);
+            int port = packet.getPort();
+            packet = new DatagramPacket(buffer, buffer.length, address, port);
+            udpSocket.send(packet);
+            System.out.println("Message sent");
+          }catch(Exception err){
+            err.printStackTrace();
           }
         }//close while
      }//close run

@@ -20,7 +20,7 @@ public class GameClient{
     chatDump.setEditable(false);
     chatInput.setPreferredSize(new Dimension(780,20));
     gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		gameFrame.setPreferredSize(new Dimension(800,500));
+	  gameFrame.setPreferredSize(new Dimension(800,500));
 
     try{
         final String username = args[2];
@@ -32,6 +32,23 @@ public class GameClient{
         final Socket client = new Socket(serverName, port);
         System.out.println("Connected as " + username);
 
+//===================================================
+byte message[] = new byte[256];
+InetAddress address = InetAddress.getByName(serverName);
+System.out.println("connecting to host" + address);
+DatagramPacket packet = new DatagramPacket(message, message.length, address, port+1);
+DatagramSocket socket = new DatagramSocket();
+socket.send(packet);
+packet = new DatagramPacket(message, message.length);
+
+//The receive method of DatagramSocket will indefinitely block until
+//a UDP datagram is received
+socket.receive(packet);
+
+String serverWelcome = new String(packet.getData());
+System.out.println(serverWelcome);
+socket.close();
+//===================================================
         try{
           OutputStream outToServer = client.getOutputStream();
           DataOutputStream out = new DataOutputStream(outToServer);
@@ -98,14 +115,14 @@ public class GameClient{
 
 
 	Game game = new Game();
-  chatPanel.setLayout(new BorderLayout());
-  chatPanel.setPreferredSize(new Dimension(780,100));
-  chatPanel.add(chatScroll, BorderLayout.CENTER);
-  chatPanel.add(chatInput, BorderLayout.SOUTH);
-  gameContainer.add(chatPanel, BorderLayout.SOUTH);
-  gameContainer.add(game, BorderLayout.CENTER);
-  gameFrame.pack();
-  gameFrame.setVisible(true);
+	chatPanel.setLayout(new BorderLayout());
+	chatPanel.setPreferredSize(new Dimension(780,100));
+	chatPanel.add(chatScroll, BorderLayout.CENTER);
+	chatPanel.add(chatInput, BorderLayout.SOUTH);
+	gameContainer.add(chatPanel, BorderLayout.SOUTH);
+	gameContainer.add(game, BorderLayout.CENTER);
+	gameFrame.pack();
+	gameFrame.setVisible(true);
 
 	game.start();
   }//close main
