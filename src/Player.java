@@ -17,7 +17,7 @@ public class Player extends GameObject{
 		g.fillOval((int)x,(int)y,32,32);
 	}
 	public Rectangle getBounds(){
-		return new Rectangle((int)x,(int)y,32,32); 
+		return new Rectangle((int)x,(int)y,32,32);
 	}
 
 

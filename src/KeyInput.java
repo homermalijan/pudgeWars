@@ -1,5 +1,10 @@
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.*;
+import java.net.*;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class KeyInput extends KeyAdapter{
 	Handler handler;
@@ -19,6 +24,22 @@ public class KeyInput extends KeyAdapter{
 				if(key == KeyEvent.VK_A)tempObject.setVelX (-1);
 				if(key == KeyEvent.VK_S)tempObject.setVelY(1);
 				if(key == KeyEvent.VK_W)tempObject.setVelY(-1);
+
+				//=======================================================================
+				try{
+					InetAddress address = InetAddress.getByName("localhost");
+
+					byte buffer[] = new byte[256];
+					String message = tempObject.getX() + " " + tempObject.getY();
+					buffer = message.getBytes();
+
+					DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address, 8082);
+					DatagramSocket socket = new DatagramSocket();
+					socket.send(packet);
+				} catch(Exception ee){
+					ee.printStackTrace();
+				}
+				//=======================================================================
 			}
 		}
 

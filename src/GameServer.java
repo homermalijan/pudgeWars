@@ -90,7 +90,9 @@ public class GameServer extends Thread{
             byte buffer[] = new byte[256];
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
             moveSocket.receive(packet);
-            String message = new String(buffer, 0, packet.getLength());
+
+            String message = new String(packet.getData());
+            System.out.println(packet.getAddress() +  "said: " + message);
             buffer = message.getBytes();
             int port = packet.getPort();
 

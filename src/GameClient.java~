@@ -83,14 +83,14 @@ public class GameClient{
         System.out.println("Usage: java GameClient <server ip> <port no.> <username>");
         System.exit(1);
     }
-	
-	
+
+
 	Game game = new Game();
-	
+
 	gamePanel.add(game);
-	
-	
-	
+
+
+
     chatPanel.setLayout(new BorderLayout());
     chatPanel.setPreferredSize(new Dimension(780,100));
     chatPanel.add(chatScroll, BorderLayout.CENTER);
@@ -99,7 +99,7 @@ public class GameClient{
     gameContainer.add(game, BorderLayout.CENTER);
     gameFrame.pack();
     gameFrame.setVisible(true);
-		
-	game.start();	  
+
+	game.start();
   }//close main
 }//close main
