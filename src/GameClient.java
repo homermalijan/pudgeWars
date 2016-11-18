@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class GameClient{
   static DatagramSocket socket;
-
+  private static String ipCopy;
   public static void main(String [] args){
     JFrame gameFrame = new JFrame("Frog Wars");
     Container gameContainer = gameFrame.getContentPane();
@@ -27,6 +27,7 @@ public class GameClient{
     try{
         final String username = args[2];
         final String serverName = args[0]; //get IP address of server from first param
+        ipCopy = serverName;
         final int port = Integer.parseInt(args[1]); //get port from second param
 
         /* Open a ClientSocket and connect to ServerSocket */
@@ -44,13 +45,14 @@ new Thread(){
     while(true){
       byte[] buffer = null;
       DatagramPacket packet = null;
+
       try{
         Thread.sleep(1);
         buffer = new byte[256];
         packet = new DatagramPacket(buffer, buffer.length);
         socket.receive(packet);
-
       }catch(Exception e){}
+
       String message = new String(buffer);
       message = message.trim();
       if(!connected && message.startsWith("Connected")){
@@ -70,12 +72,6 @@ new Thread(){
   }
 }.start();
 //=================================================
-
-
-
-
-
-
 
         try{
           OutputStream outToServer = client.getOutputStream();
@@ -159,7 +155,8 @@ new Thread(){
   public static void send(String msg){
     try{
       byte[] buffer = msg.getBytes();
-      InetAddress address = InetAddress.getByName("localhost");
+      // InetAddress address = InetAddress.getByName(msg.split(" ")[4]);
+      InetAddress address = InetAddress.getByName(ipCopy  );
       DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address, 8081);
       socket.send(packet);
     }catch(Exception e){}

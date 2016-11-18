@@ -83,10 +83,10 @@ public class GameServer extends Thread{
               if(message.startsWith("Connect")){
                 String name = message.split(" ")[1];
                 clientMap.put(name, packet);
-                send(packet, "Connected");
+                send(packet, "Connected " + InetAddress.getLocalHost());
                 System.out.println("connecting..");
               }else{
-                broadcast(message);
+                broadcast(message + " " + InetAddress.getLocalHost());
               }
 
             }catch(Exception e){}
