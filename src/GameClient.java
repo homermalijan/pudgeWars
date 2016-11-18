@@ -33,38 +33,6 @@ public class GameClient{
         System.out.println("Connecting to " + serverName + " on port " + port);
         final Socket client = new Socket(serverName, port);
         System.out.println("Connected as " + username);
-//
-// //===================================================
-// new Thread(){
-//   public void run(){
-//     try{
-//       byte message[] = new byte[256];
-//       final InetAddress address = InetAddress.getByName(serverName);
-//       System.out.println("connecting to host" + address);
-//       DatagramPacket packet = new DatagramPacket(message, message.length, address, port);
-//       final DatagramSocket socket = new DatagramSocket();
-//       socket.send(packet);
-//       packet = new DatagramPacket(message, message.length);
-//       socket.receive(packet);
-//       String serverWelcome = new String(packet.getData());
-//       System.out.println(serverWelcome);
-//
-//       while(true){
-//         System.out.println("Haller world");
-//         byte buffer[] = new byte[256];
-//         DatagramPacket packet2 = new DatagramPacket(buffer, buffer.length);
-//         socket.receive(packet2);
-//         String msg = new String(packet2.getData());
-//         System.out.println("someone is at " + msg);
-//       }
-//     }catch(Exception ee){
-//       ee.printStackTrace();
-//     }
-//   }
-// }.start();
-// //===================================================
-
-
 //=================================================
 new Thread(){
   public void run(){
@@ -90,7 +58,7 @@ new Thread(){
         System.out.println("You are now connected");
       }else if(!connected){
         System.out.println("Connecting..");
-        send("Connect " + username);
+        send(packet, "Connect " + username);
       }else if(connected){
         //===================================================================
         //sa message nakalagay kung sino yung gumalaw at kung nasan siya
@@ -189,10 +157,10 @@ new Thread(){
 	game.start();
   }//close main
 
-  public static void send(String msg){
+  public static void send(DatagramPacket pack, String msg){
     try{
       byte[] buffer = msg.getBytes();
-      InetAddress address = InetAddress.getByName("localhost");
+      InetAddress address = InetAddress.getByName(pack);
       DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address, 8081);
       socket.send(packet);
     }catch(Exception e){}

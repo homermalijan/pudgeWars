@@ -56,81 +56,19 @@ public class GameServer extends Thread{
         }//close while
      }//close run
    }.start();
-   //
-  //  //threads for receiving connection (saving addresses)
-  //  new Thread(){
-  //    public void run(){
-  //       while(true){
-  //         try{
-  //           DatagramSocket udpSocket = new DatagramSocket(8081);
-  //           byte buffer[] = new byte[256];
-  //           DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-  //           udpSocket.receive(packet);
-   //
-  //           String message = "\nWelcome to Frog Wars";
-  //           buffer = message.getBytes();
-  //           InetAddress address = packet.getAddress();
-   //
-  //           clientAddresses.add(address);
-  //           clientSockets.add(udpSocket);
-   //
-  //           System.out.println("hallu");
-  //           int port = packet.getPort();
-  //           packet = new DatagramPacket(buffer, buffer.length, address, port);
-  //           udpSocket.send(packet);
-  //         }catch(Exception err){
-  //           err.printStackTrace();
-  //         }
-  //       }//close while
-  //    }//close run
-  //  }.start();
-   //
-  //  //thread for receiving and sending client moves over other clients
-  //  new Thread(){
-  //    public void run(){
-  //       while(true){
-  //         try{
-  //           byte buffer[] = new byte[256];
-  //           DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-  //           moveSocket.receive(packet);
-   //
-  //           String message = new String(packet.getData());
-  //           System.out.println(packet.getAddress() +  " said: " + message);
-  //           buffer = message.getBytes();
-  //           int port = packet.getPort();
-   //
-  //           for(DatagramSocket s : clientSockets){
-  //             // if(ia != packet.getAddress())
-  //             System.out.println("send " + message);
-  //             byte buffer2[] = new byte[256];
-  //             buffer = message.getBytes();
-  //             DatagramPacket packet2 = new DatagramPacket(buffer2, buffer2.length, packet.getAddress(), port+1);
-  //             s.send(packet2);
-  //           }
-   //
-  //           System.out.println("Movement Sent to everyone");
-  //         }catch(Exception err){
-  //           err.printStackTrace();
-  //         }
-  //       }//close while
-  //    }//close run
-  //  }.start();
-
-
-
  }//close run
 
   public static void main(String args[]) {
     //Open Server Socket
     try {
-      int port = Integer.parseInt(args[0]);
+      final int port = Integer.parseInt(args[0]);
       Thread t = new GameServer(port);
       t.start();
 
       new Thread() {
         public void run(){
           try{
-            server = new DatagramSocket(8081);
+            server = new DatagramSocket(port+1);
             server.setSoTimeout(100);
           }catch(Exception e){}
 
@@ -169,7 +107,7 @@ public class GameServer extends Thread{
       DatagramPacket temp = clientMap.get(key);
       send(temp,msg);
     }
-  }
+  }//close broadcasr
 
   public static void send(DatagramPacket temp, String msg){
     byte buffer[] = msg.getBytes();
