@@ -43,7 +43,7 @@ new Thread(){
     boolean connected = false;
     while(true){
       byte[] buffer = null;
-      DatagramPacket packet;
+      DatagramPacket packet = null;
       try{
         Thread.sleep(1);
         buffer = new byte[256];
@@ -58,7 +58,7 @@ new Thread(){
         System.out.println("You are now connected");
       }else if(!connected){
         System.out.println("Connecting..");
-        send(packet, "Connect " + username);
+        send("Connect " + username);
       }else if(connected){
         //===================================================================
         //sa message nakalagay kung sino yung gumalaw at kung nasan siya
@@ -120,7 +120,7 @@ new Thread(){
                 InputStream inFromServer = client.getInputStream();
                 DataInputStream in = new DataInputStream(inFromServer);
                 String message = in.readUTF();
-                chatDump.append(message);
+                chatDump.append(message+"\n");
                 System.out.println(message);
               }
             }catch(Exception e){
@@ -153,14 +153,13 @@ new Thread(){
 	gameContainer.add(game, BorderLayout.CENTER);
 	gameFrame.pack();
 	gameFrame.setVisible(true);
-
 	game.start();
   }//close main
 
-  public static void send(DatagramPacket pack, String msg){
+  public static void send(String msg){
     try{
       byte[] buffer = msg.getBytes();
-      InetAddress address = InetAddress.getByName(pack);
+      InetAddress address = InetAddress.getByName("localhost");
       DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address, 8081);
       socket.send(packet);
     }catch(Exception e){}

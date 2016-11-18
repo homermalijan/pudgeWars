@@ -27,6 +27,7 @@ public class KeyInput extends KeyAdapter{
 
 				//=======================================================================
 				try{
+					// DatagramPacket packet = null;
 					String message = tempObject.getId() + " is at " + tempObject.getX() + " " + tempObject.getY();
 					GameClient.send(message);
 				} catch(Exception ee){
