@@ -16,10 +16,10 @@ public class GameServer extends Thread{
     serverSocket.setSoTimeout(120000);
   }//close constructor
 
- public void run(){
-   System.out.println("listening at port " + serverSocket.getLocalPort() + "...");
-   new Thread(){
-     public void run(){
+  public void run(){
+    System.out.println("listening at port " + serverSocket.getLocalPort() + "...");
+    new Thread(){
+      public void run(){
 
         while(true){
           //wait for connections
@@ -62,6 +62,7 @@ public class GameServer extends Thread{
     //Open Server Socket
     try {
       final int port = Integer.parseInt(args[0]);
+      final int playerCount = Integer.parseInt(args[1]);
       Thread t = new GameServer(port);
       t.start();
 
@@ -82,11 +83,17 @@ public class GameServer extends Thread{
               System.out.println(message);
               if(message.startsWith("Connect")){
                 String name = message.split(" ")[1];
+                if(clientMap.size() == playerCount){
+                  System.out.println(name + " is trying to connect. cannot accomodate");
+                  send(packet, "No");
+                  continue;
+                }
                 clientMap.put(name, packet);
                 send(packet, "Connected " + InetAddress.getLocalHost());
                 System.out.println("connecting..");
               }else{
-                broadcast(message + " " + InetAddress.getLocalHost());
+                //broadcast position only if there is enough player count
+                if(clientMap.size() == playerCount) broadcast(message + " " + InetAddress.getLocalHost());
               }
 
             }catch(Exception e){}
