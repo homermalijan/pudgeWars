@@ -10,11 +10,20 @@ public class GameServer extends Thread{
   private static ServerSocket serverSocket;
   private static DatagramSocket server;
   private static HashMap<String, DatagramPacket> clientMap = new HashMap<String, DatagramPacket>();
+  private int playerCount;
 
-  public GameServer(int port) throws IOException{
+  public static boolean start;
+  public int i = 0;
+
+  public GameServer(int port, int playerCount) throws IOException{
     serverSocket = new ServerSocket(port);
     serverSocket.setSoTimeout(120000);
+
+    playerCount = playerCount;
+    start = false;
   }//close constructor
+
+  
 
   public void run(){
     System.out.println("listening at port " + serverSocket.getLocalPort() + "...");
@@ -28,7 +37,12 @@ public class GameServer extends Thread{
             DataInputStream in = new DataInputStream(client.getInputStream());
             System.out.println(client.getRemoteSocketAddress() + " connected as " + in.readUTF());
             clients.add(client);
-
+            // System.out.println(clients.size());
+            // System.out.println(playerCount);
+            // if(clients.size() == playerCount) {
+              // start = true; 
+              // System.out.println("Game Start.");    
+            // }
             //another thread for every connection to receive messages
             new Thread(){
               public void run(){
@@ -53,7 +67,11 @@ public class GameServer extends Thread{
           }catch(Exception e){
             System.out.println("Socket Timed Out");
           }
+
+        // System.out.println(playerCount);
+        
         }//close while
+        
      }//close run
    }.start();
  }//close run
@@ -63,7 +81,7 @@ public class GameServer extends Thread{
     try {
       final int port = Integer.parseInt(args[0]);
       final int playerCount = Integer.parseInt(args[1]);
-      Thread t = new GameServer(port);
+      Thread t = new GameServer(port, playerCount);
       t.start();
 
       new Thread() {
