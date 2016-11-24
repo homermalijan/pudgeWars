@@ -26,9 +26,9 @@ public class GameClient{
     final JTextField chatInput = new JTextField();
 
     chatDump.setEditable(false);
-    chatInput.setPreferredSize(new Dimension(780,20));
+    chatInput.setPreferredSize(new Dimension(580,20));
     gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    gameFrame.setPreferredSize(new Dimension(800,500));
+    gameFrame.setPreferredSize(new Dimension(600,500));
 
     try{
         final String username = args[2];
@@ -148,7 +148,7 @@ public class GameClient{
 
   	Game game = new Game();
   	chatPanel.setLayout(new BorderLayout());
-  	chatPanel.setPreferredSize(new Dimension(780,100));
+  	chatPanel.setPreferredSize(new Dimension(580,100));
   	chatPanel.add(chatScroll, BorderLayout.CENTER);
   	chatPanel.add(chatInput, BorderLayout.SOUTH);
   	gameContainer.add(chatPanel, BorderLayout.SOUTH);

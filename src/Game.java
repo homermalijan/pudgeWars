@@ -1,6 +1,7 @@
 import java.awt.Canvas;
 import java.awt.image.BufferStrategy;
 import java.awt.*;
+import javax.swing.*;
 
 public class Game extends Canvas implements Runnable{
 	private boolean running = false;
@@ -14,7 +15,7 @@ public class Game extends Canvas implements Runnable{
 		HEIGHT = getHeight();
 
 		handler = new Handler();
-		handler.bound();
+
 
 		handler.addObject(new Player(50,50,ObjectId.Player));
 		this.addKeyListener(new KeyInput(handler));
@@ -76,8 +77,11 @@ public class Game extends Canvas implements Runnable{
 
 		Graphics g = bs.getDrawGraphics();
 
-		g.setColor(Color.black);
-		g.fillRect(0,0 ,getWidth(),getHeight());
+		ImageIcon bg = new ImageIcon("../img/bg.jpg");
+		Image bgI = bg.getImage();
+		//bgI= bgI.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
+		//g.fillRect(0,0 ,getWidth(),getHeight());
+		g.drawImage(bgI,0,0,null);
 
 		handler.render(g);
 

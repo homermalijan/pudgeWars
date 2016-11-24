@@ -1,6 +1,6 @@
 import java.awt.*;
 import java.util.*;
-
+import javax.swing.*;
 
 public class Player extends GameObject{
 
@@ -13,8 +13,9 @@ public class Player extends GameObject{
 		y += velY;
 	}
 	public void render(Graphics g){
-		g.setColor(Color.green);
-		g.fillOval((int)x,(int)y,32,32);
+		ImageIcon frog = new ImageIcon("../img/red.png");
+		Image frogI = frog.getImage();
+		g.drawImage(frogI,(int)x,(int)y,null);
 	}
 	public Rectangle getBounds(){
 		return new Rectangle((int)x,(int)y,32,32);

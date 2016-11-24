@@ -27,21 +27,5 @@ public class Handler{
 		this.object.remove(object);
 	}
 
-	public void bound(){
-		for(int xx=0;xx<Game.WIDTH+32;xx+= 32){
-			addObject(new Test(xx,Game.HEIGHT-200,ObjectId.Test));
-		}
-		for(int xx=0;xx<Game.WIDTH+32;xx+= 32){
-			addObject(new Test(xx,Game.HEIGHT-180,ObjectId.Test));
-		}
-		for(int xx=0;xx<Game.WIDTH+32;xx+= 32){
-			addObject(new Test(xx,Game.HEIGHT-220,ObjectId.Test));
-		}
-		for(int xx=0;xx<Game.WIDTH+32;xx+= 32){
-			addObject(new Test(xx,Game.HEIGHT-160,ObjectId.Test));
-		}
-		for(int xx=0;xx<Game.WIDTH+32;xx+= 32){
-			addObject(new Test(xx,Game.HEIGHT-240,ObjectId.Test));
-		}
-	}
+	
 }
