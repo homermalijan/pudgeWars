@@ -18,9 +18,15 @@ public class GameClient{
     JFrame gameFrame = new JFrame("Frog Wars");
     Container gameContainer = gameFrame.getContentPane();
     gameContainer.setLayout(new BorderLayout());
+<<<<<<< HEAD
     JPanel gamePanel = new JPanel();
     JPanel chatPanel = new JPanel();
 
+=======
+    GamePanel gamePanel = new GamePanel();
+    JPanel chatPanel = new JPanel();
+    // Frog frog = new Frog();
+>>>>>>> d3c84ce701ad2a4fc273121acb33662623228890
     final JTextArea chatDump = new JTextArea(3,400);
     final JScrollPane chatScroll = new JScrollPane(chatDump);
     final JTextField chatInput = new JTextField();
@@ -146,6 +152,7 @@ public class GameClient{
     }
 
 
+<<<<<<< HEAD
   	Game game = new Game();
   	chatPanel.setLayout(new BorderLayout());
   	chatPanel.setPreferredSize(new Dimension(780,100));
@@ -156,6 +163,17 @@ public class GameClient{
   	gameFrame.pack();
   	gameFrame.setVisible(true);
   	game.start();
+=======
+    chatPanel.setLayout(new BorderLayout());
+    chatPanel.setPreferredSize(new Dimension(780,100));
+    chatPanel.add(chatScroll, BorderLayout.CENTER);
+    chatPanel.add(chatInput, BorderLayout.SOUTH);
+    
+    gameContainer.add(chatPanel, BorderLayout.SOUTH);
+    gameContainer.add(gamePanel, BorderLayout.CENTER);
+    gameFrame.pack();
+    gameFrame.setVisible(true);
+>>>>>>> d3c84ce701ad2a4fc273121acb33662623228890
   }//close main
 
   public static void send(String msg){
