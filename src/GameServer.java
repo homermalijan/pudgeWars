@@ -105,7 +105,7 @@ public class GameServer extends Thread{
     } catch (IOException e) {
       System.out.println("Invalid port");
     } catch(ArrayIndexOutOfBoundsException e){
-      System.out.println("Insufficient Arguments");
+      System.out.println("Usage: java GameServer <port> <player count>");
     }
   }//close main
 
