@@ -1,6 +1,4 @@
-
-
 public enum ObjectId{
-	Test();
-	Player();
+	Player(),
+	Other();
 }

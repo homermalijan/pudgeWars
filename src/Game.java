@@ -6,18 +6,36 @@ import javax.swing.*;
 public class Game extends Canvas implements Runnable{
 	private boolean running = false;
 	private Thread thread;
-
+	private int N;
 	public static int WIDTH,HEIGHT;
 	Handler handler;
+	 
+	public Game(int N){
+		this.N = N; 
+	}
 
 	private void init(){
 		WIDTH = getWidth();
 		HEIGHT = getHeight();
 
 		handler = new Handler();
+	 		
+		
+		
+		
+		
+		/*
+		for(String key : GameClient.playerMap.keySet()){
+		  	String player = GameClient.playerMap.get(key);
+		 	 String[] temp = player.split(" ");
+		  	   
+		// 	 if(key.compareTo(GameClient.uName) != 0){
+					
+		 //x		 }
 
-
-		handler.addObject(new Player(50,50,ObjectId.Player));
+		}
+		*/	 
+		
 		this.addKeyListener(new KeyInput(handler));
 	 }
 
@@ -41,6 +59,12 @@ public class Game extends Canvas implements Runnable{
 		int updates = 0;
 		int frames = 0;
 
+		
+
+		
+	 		
+		
+		
 		while(running){
 			long now = System.nanoTime();
 			delta += (now - lastTime) / ns;
@@ -50,6 +74,30 @@ public class Game extends Canvas implements Runnable{
 				updates++;
 				delta--;
 			}
+			int a = 100;
+			
+			/*
+			//
+			for(int i=0;i<GameClient.playerMap.size();i++){
+				handler.addObject(new Other(a,50,ObjectId.Other));	
+				a+=100;
+			}
+			*/
+			handler.removeObject();
+			for(String key : GameClient.playerMap.keySet()){
+			  	String player = GameClient.playerMap.get(key);
+			 	String[] temp = player.split(" ");
+			  	if(key.compareTo(GameClient.uName) == 0){
+			  		handler.addObject(new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),ObjectId.Player,key)); 
+		 		}
+		 		else{
+		 			handler.addObject(new Other(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),ObjectId.Other,key));
+		 		}
+		 	}
+		 	
+		 	
+
+		
 			render();
 			frames++;
 

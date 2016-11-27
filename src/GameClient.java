@@ -63,18 +63,31 @@ public class GameClient{
             message = message.trim();
             if(!isConnected && message.startsWith("Connected")){
               isConnected = true;
+              playerMap.put(username,"50 50");
               System.out.println("You are now connected");
-            }else if(!isConnected && message.startsWith("No")){
+              System.out.println(playerMap.size());
+              for(String key : playerMap.keySet()){
+		  	  //	String player = playerMap.get(key);
+		 	  	System.out.println(key);
+		  	  }
+		  	}
+            else if(!isConnected && message.startsWith("No")){
               System.out.println("Cannot Accomodate more players :(");
               break;
             }else if(!isConnected){
               System.out.println("Connecting..");
               send("Connect " + username);
-            }else if(isConnected){
+            }
+            else if(isConnected && message.startsWith("Start")){
+            	System.out.println("aaaaaaa");
+				String message2 = username + " is at 50 50";            
+            	send(message2);
+            }
+            else if(isConnected){
               if(message!=null && !message.equals("") ){
                 System.out.println(message);
                 String[] temp = message.split(" ");
-                playerMap.put(temp[0], temp[1] + " " + temp[2]);
+                playerMap.put(temp[0], temp[3] + " " + temp[4]);
               }
             }
           }
@@ -146,7 +159,8 @@ public class GameClient{
     }
 
 
-  	Game game = new Game();
+  	Game game = new Game(playerMap.size());
+	System.out.println(playerMap.size()); 
   	chatPanel.setLayout(new BorderLayout());
   	chatPanel.setPreferredSize(new Dimension(580,100));
   	chatPanel.add(chatScroll, BorderLayout.CENTER);
@@ -156,12 +170,13 @@ public class GameClient{
   	gameFrame.pack();
   	gameFrame.setVisible(true);
   	game.start();
+ 	 	System.out.println(playerMap.size());
   }//close main
 
   public static void send(String msg){
     try{
       byte[] buffer = msg.getBytes();
-      // InetAddress address = InetAddress.getByName(msg.split(" ")[4]);
+      // 	InetAddress address = InetAddress.getByName(msg.split(" ")[4]);
       InetAddress address = InetAddress.getByName(ipCopy);
       DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address, 8081);
       socket.send(packet);

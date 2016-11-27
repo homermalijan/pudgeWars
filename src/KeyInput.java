@@ -24,12 +24,15 @@ public class KeyInput extends KeyAdapter{
 				if(key == KeyEvent.VK_A)tempObject.setVelX (-1);
 				if(key == KeyEvent.VK_S)tempObject.setVelY(1);
 				if(key == KeyEvent.VK_W)tempObject.setVelY(-1);
-
+				
+				//GameClient.playerMap.put(GameClient.uName,tempObject.getX() + " " + tempObject.getY());
+				
 				//=======================================================================
 				try{
 					// DatagramPacket packet = null;
 					if(GameClient.isConnected){
 						String message = GameClient.uName + " is at " + tempObject.getX() + " " + tempObject.getY();
+						System.out.println(GameClient.playerMap.size());
 						GameClient.send(message);
 					}
 				} catch(Exception ee){
