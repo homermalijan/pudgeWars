@@ -91,6 +91,15 @@ public class GameServer extends Thread{
                 clientMap.put(name, packet);
                 send(packet, "Connected " + InetAddress.getLocalHost());
                 System.out.println("connecting..");
+                if(clientMap.size() == playerCount){
+                  for (String key : clientMap.keySet()) {
+                      send(clientMap.get(key), "Game Start!");
+                      for (String key2 : clientMap.keySet()) {
+                          send(clientMap.get(key), "playerName " + key2);
+
+                      }
+                  }
+                }
               }else{
                 //broadcast position only if there is enough player count
                 if(clientMap.size() == playerCount) broadcast(message + " " + InetAddress.getLocalHost());

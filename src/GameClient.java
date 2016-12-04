@@ -71,10 +71,21 @@ public class GameClient{
               System.out.println("Connecting..");
               send("Connect " + username);
             }else if(isConnected){
-              if(message!=null && !message.equals("") ){
-                System.out.println(message);
+              if(message.equals("Game Start!")){
+                System.out.println("Game Start!\nPlayers:\n");
+              }else if(message.startsWith("playerName")){
+                System.out.println(message.split(" ")[1]);
+                playerMap.put(message.split(" ")[1], "50 50");
+                //DRAW PLAYER HERE
+                // if(!message.split(" ")[1].equals(username)) Game.addPlayer();
+              }else if(message!=null && !message.equals("") ){
+                // System.out.println(message);
                 String[] temp = message.split(" ");
-                playerMap.put(temp[0], temp[1] + " " + temp[2]);
+                playerMap.put(temp[0], temp[3] + " " + temp[4]);
+                for (String key : playerMap.keySet()) {
+                    System.out.println(key + " is at " + playerMap.get(key));
+                }
+                //EVERYTIME A PLAYER MOVES. remove previous then redraw
               }
             }
           }

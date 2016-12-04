@@ -8,14 +8,13 @@ public class Game extends Canvas implements Runnable{
 	private Thread thread;
 
 	public static int WIDTH,HEIGHT;
-	Handler handler;
+	public static Handler handler;
 
 	private void init(){
 		WIDTH = getWidth();
 		HEIGHT = getHeight();
 
 		handler = new Handler();
-
 
 		handler.addObject(new Player(50,50,ObjectId.Player));
 		this.addKeyListener(new KeyInput(handler));
@@ -90,7 +89,11 @@ public class Game extends Canvas implements Runnable{
 
 	}
 
+	// public static void addPlayer(){
+	// 	handler.addObject(new Player(50,50,ObjectId.Player));
+	// }
 
-
+	//add player function
+	//redraw player function (remove previous then draw new players) using hashmap
 
 }
