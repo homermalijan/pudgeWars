@@ -4,12 +4,14 @@ import java.util.*;
 public abstract class GameObject{
 	protected float x,y;
 	protected ObjectId id;
+	protected String uname;
 	protected float velX = 0, velY = 0;
 
-	public GameObject(float x,float y,ObjectId id){
+	public GameObject(float x,float y,ObjectId id,String uname){
 		this.x = x;
 		this.y = y;
 		this.id = id;
+		this.uname = uname;
 	}
 
   public abstract void tick(LinkedList<GameObject> object);
@@ -50,5 +52,8 @@ public abstract class GameObject{
 
 	public ObjectId getId(){
 		return id;
+	}
+	public String getUname(){
+		return uname;
 	}
 }
