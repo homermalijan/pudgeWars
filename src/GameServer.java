@@ -73,6 +73,7 @@ public class GameServer extends Thread{
             server.setSoTimeout(100);
           }catch(Exception e){}
 
+          //start tcp infinite loop
           while(true){
             byte[] buffer = new byte[256];
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
@@ -94,10 +95,14 @@ public class GameServer extends Thread{
                 if(clientMap.size() == playerCount){
                 	byte[] buffer2 = new byte[256];
                 	DatagramPacket packet2 = new DatagramPacket(buffer2, buffer2.length);
-                	System.out.println("PLayers Complete");
+                	System.out.println("Players Complete");
                 	broadcast("Start");
+                  for(String tempKey : clientMap.keySet()){
+                    for(String tempKey2 : clientMap.keySet()){
+                      send(clientMap.get(tempKey),"playerName " + tempKey2);
+                    }
+                  }
                 }
-                
               }else{
                 //broadcast position only if there is enough player count
                 if(clientMap.size() == playerCount) broadcast(message + " " + InetAddress.getLocalHost());

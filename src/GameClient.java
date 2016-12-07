@@ -17,9 +17,9 @@ public class GameClient{
 
   public static void main(String [] args){
     JFrame gameFrame = new JFrame("Frog Wars");
-    Container gameContainer = gameFrame.getContentPane();
+    final Container gameContainer = gameFrame.getContentPane();
     gameContainer.setLayout(new BorderLayout());
-    JPanel gamePanel = new JPanel();
+    final JPanel gamePanel = new JPanel();
     JPanel chatPanel = new JPanel();
 
     final JTextArea chatDump = new JTextArea(3,400);
@@ -66,33 +66,28 @@ public class GameClient{
             message = message.trim();
             if(!isConnected && message.startsWith("Connected")){
               isConnected = true;
-              playerMap.put(username,"50 50");
               System.out.println("You are now connected");
-              System.out.println(playerMap.size());
-              for(String key : playerMap.keySet()){
-		  	  //	String player = playerMap.get(key);
-		 	  	System.out.println(key);
-		  	  }
-		  	}
-            else if(!isConnected && message.startsWith("No")){
+		  	    }else if(!isConnected && message.startsWith("No")){
               System.out.println("Cannot Accomodate more players :(");
               break;
             }else if(!isConnected){
               System.out.println("Connecting..");
               send("Connect " + username);
-            }
-            else if(isConnected && message.startsWith("Start")){
-            	System.out.println("aaaaaaa");
-				String message2 = username + " is at 50 50";
-            	send(message2);
-            }
-            else if(isConnected){
-              if(message!=null && !message.equals("") ){
+            }else if(isConnected){
+              if(isConnected && message.startsWith("Start")){
+                System.out.println("Game Start!");
+              }else if(isConnected && message.startsWith("playerName")){
+                System.out.println("player received");
+                playerMap.put(message.split(" ")[1], "50 " + (50+ (50*playerMap.size())));
+              }else if(message!=null && !message.equals("") ){
                 System.out.println(message);
                 String[] temp = message.split(" ");
                 playerMap.put(temp[0], temp[3] + " " + temp[4]);
+                for(String tempKey : playerMap.keySet()){
+                  System.out.println(tempKey + " is at " + playerMap.get(tempKey));
+                }
+              }//close if
               }
-            }
           }
         }//close run
       }.start();
@@ -161,19 +156,16 @@ public class GameClient{
         System.exit(1);
     }
 
-
-  	Game game = new Game(playerMap.size());
-	System.out.println(playerMap.size());
+    Game game = new Game();
+    gameContainer.add(game, BorderLayout.CENTER);
   	chatPanel.setLayout(new BorderLayout());
   	chatPanel.setPreferredSize(new Dimension(580,100));
   	chatPanel.add(chatScroll, BorderLayout.CENTER);
   	chatPanel.add(chatInput, BorderLayout.SOUTH);
-  	gameContainer.add(chatPanel, BorderLayout.SOUTH);
-  	gameContainer.add(game, BorderLayout.CENTER);
+  	gameContainer.add(chatPanel, BorderLayout.SOUTH); 
   	gameFrame.pack();
   	gameFrame.setVisible(true);
-  	game.start();
- 	 	System.out.println(playerMap.size());
+    game.start();
   }//close main
 
   public static void send(String msg){
