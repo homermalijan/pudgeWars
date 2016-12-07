@@ -91,13 +91,15 @@ public class GameServer extends Thread{
                   send(packet, "No");
                   continue;
                 }
-                clientMap.put(name, packet);
+
                 if(teamCounter%2 == 1){
                   teamOne++;
+                  clientMap.put("1"+name, packet);
                   send(packet, "1Connected " + InetAddress.getLocalHost());
                 }else{
                   teamTwo++;
                   send(packet, "2Connected " + InetAddress.getLocalHost());
+                  clientMap.put("2"+name, packet);
                 }
                 teamCounter++;
                 System.out.println("connecting..");
@@ -110,6 +112,7 @@ public class GameServer extends Thread{
                     for(String tempKey2 : clientMap.keySet()){
                       send(clientMap.get(tempKey),"playerName " + tempKey2);
                     }
+                    send(clientMap.get(tempKey),"sent");
                   }
                 }
               }else{

@@ -7,6 +7,7 @@ public class Game extends Canvas implements Runnable{
 	private boolean running = false;
 	private Thread thread;
 	private int N;
+	private int team;
 	public static int WIDTH,HEIGHT;
 
 	Handler handler = new Handler();
@@ -19,41 +20,39 @@ public class Game extends Canvas implements Runnable{
 		WIDTH = getWidth();
 		HEIGHT = getHeight();
 
-<<<<<<< HEAD
-=======
 		handler = new Handler();
 
-		handler.addObject(new Player(50, 50, ObjectId.Player, "key"));
-		/*
->>>>>>> 4216a40f5d58487e0d8eb22e58d4b7d32c628d29
+		// handler.addObject(new Player(50, 50, ObjectId.Player, "key"));
+		System.out.println("i am going to render " + GameClient.playerMap.size() + " frogs");
 		for(String key : GameClient.playerMap.keySet()){
 		   	String player = GameClient.playerMap.get(key);
 		  	String[] temp = player.split(" ");
-		 // 	if(key.equals(GameClient.uName)){
-		   		handler.addObject(new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),ObjectId.Player,key));
-		 //		}
-	 	//	else{
-  		//		handler.addObject(new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),null,key));
-	 	//	}
+		 	if(key.equals("1"+GameClient.uName) || key.equals("2"+GameClient.uName)){
+					if(key.startsWith("1")) handler.addObject(new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),ObjectId.Player,key,1));
+					else handler.addObject(new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),ObjectId.Player,key,2));
+		 		}
+	 		else{
+  				if(key.startsWith("1")) handler.addObject(new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),null,key,1));
+					else handler.addObject(new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),null,key,2));
+	 		}
 		}
-		
 		this.addKeyListener(new KeyInput(handler));
 	 }
 
-	public synchronized void start(){
+	public synchronized void start(int team){
 		if(running)return;
-
+		this.team = team;
 		running = true;
 		thread = new Thread(this);
 		thread.start();
 	}
-	
-	
+
+
 
 	public void run(){
 		init();
 		this.requestFocus();
-		
+
 		long lastTime = System.nanoTime();
 		double amountOfTicks = 60.0;
 		double ns = 1000000000 / amountOfTicks;

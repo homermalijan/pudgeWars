@@ -65,10 +65,17 @@ public class GameClient{
             }catch(Exception e){}
 
             String message = new String(buffer);
+            int team = 0;
             message = message.trim();
             if(!isConnected && (message.startsWith("1Connected") || message.startsWith("2Connected"))){
-              if(message.startsWith("1")) System.out.println("Team 1");
-              else System.out.println("Team 2");
+              if(message.startsWith("1")){
+                System.out.println("Team 1");
+                team = 1;
+              }
+              else{
+                System.out.println("Team 2");
+                team = 2;
+              }
               isConnected = true;
               System.out.println("You are now connected");
 		  	    }else if(!isConnected && message.startsWith("No")){
@@ -80,10 +87,11 @@ public class GameClient{
             }else if(isConnected){
               if(isConnected && message.startsWith("Start")){
                 System.out.println("Game Start!");
-                game.start();
               }else if(isConnected && message.startsWith("playerName")){
                 System.out.println("player received");
-                playerMap.put(message.split(" ")[1], "50 " + (50+ (50*playerMap.size())));
+                playerMap.put(message.split(" ")[1], "50 " + (50+(50*(playerMap.size()+1))));
+              }else if(isConnected && message.startsWith("sent")){
+                game.start(team);
               }else if(message!=null && !message.equals("") ){
                 System.out.println(message);
                 String[] temp = message.split(" ");
@@ -162,8 +170,8 @@ public class GameClient{
         System.exit(1);
     }
 
-    
-   
+
+
   	chatPanel.setLayout(new BorderLayout());
   	chatPanel.setPreferredSize(new Dimension(580,100));
   	chatPanel.add(chatScroll, BorderLayout.CENTER);
