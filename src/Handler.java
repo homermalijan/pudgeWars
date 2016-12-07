@@ -28,11 +28,8 @@ public class Handler{
 			if(temp.getUname().compareTo(GameClient.uName) != 0){
 				this.object.remove(temp);
 			}
-			
-		}
-		
-		
-	}
+		}//close for
+	}//close removeObjects
 
-	
+
 }

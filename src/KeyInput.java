@@ -18,7 +18,6 @@ public class KeyInput extends KeyAdapter{
 
 		for(int i=0;i<handler.object.size();i++){
 			GameObject tempObject = handler.object.get(i);
-			System.out.println(tempObject.getId());
 			if(tempObject.getId() == ObjectId.Player){
 				if(key == KeyEvent.VK_D)tempObject.setVelX(3);
 				if(key == KeyEvent.VK_A)tempObject.setVelX (-3);

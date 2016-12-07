@@ -71,10 +71,12 @@ public class GameClient{
               if(message.startsWith("1")){
                 System.out.println("Team 1");
                 team = 1;
+                uName = "1" + uName;
               }
               else{
                 System.out.println("Team 2");
                 team = 2;
+                uName = "2" + uName;
               }
               isConnected = true;
               System.out.println("You are now connected");
@@ -93,7 +95,6 @@ public class GameClient{
               }else if(isConnected && message.startsWith("sent")){
                 game.start(team);
               }else if(message!=null && !message.equals("") ){
-                System.out.println(message);
                 String[] temp = message.split(" ");
                 playerMap.put(temp[0], temp[3] + " " + temp[4]);
                 game.moveOthers();
@@ -171,8 +172,6 @@ public class GameClient{
         System.exit(1);
     }
 
-
-
   	chatPanel.setLayout(new BorderLayout());
   	chatPanel.setPreferredSize(new Dimension(580,100));
   	chatPanel.add(chatScroll, BorderLayout.CENTER);
@@ -180,7 +179,6 @@ public class GameClient{
   	gameContainer.add(chatPanel, BorderLayout.SOUTH);
   	gameFrame.pack();
   	gameFrame.setVisible(true);
-
   }//close main
 
   public static void send(String msg){

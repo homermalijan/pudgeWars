@@ -30,33 +30,37 @@ public class Game extends Canvas implements Runnable{
 		// handler.addObject(new Player(50, 50, ObjectId.Player, "key"));
 		System.out.println("i am going to render " + GameClient.playerMap.size() + " frogs");
 		for(String key : GameClient.playerMap.keySet()){
-		   	String player = GameClient.playerMap.get(key);
-		  	String[] temp = player.split(" ");
-		  	Player temp1;
-		 	if(key.equals("1"+GameClient.uName) || key.equals("2"+GameClient.uName)){
+	   	String player = GameClient.playerMap.get(key);
+	  	String[] temp = player.split(" ");
+	  	Player temp1;
+			System.out.println("key is " + key + " " + GameClient.uName);
+		 	if(key.equals(GameClient.uName) || key.equals(GameClient.uName)){
 					if(key.startsWith("1")) {
+						System.out.println("team1 created 1 player");
 						temp1 = new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),ObjectId.Player,key,1);
 						handler.addObject(temp1);
 					}
 					else {
+						System.out.println("team2 created 1 player");
 						temp1 = new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),ObjectId.Player,key,2);
 		 				handler.addObject(temp1);
 		 			}
 		 		}
 	 		else{
-  				if(key.startsWith("1")){ 
-  					temp1 = new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),null,key,1);
-  					handler.addObject(temp1);
-  					frogs.put(key,temp1);
-				}	
-				else{
+				if(key.startsWith("1")){
+					System.out.println("hehe");
+					temp1 = new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),null,key,1);
+					handler.addObject(temp1);
+					frogs.put(key,temp1);
+				} else{
+					System.out.println("hoho");
 					temp1 = new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),null,key,2);
 					handler.addObject(temp1);
 	 				frogs.put(key,temp1);
 	 			}
 	 		}
 		}
-		
+
 
 		this.addKeyListener(new KeyInput(handler));
 	 }
@@ -136,27 +140,27 @@ public class Game extends Canvas implements Runnable{
 	}
 
 	public void moveOthers(){
-					
 		handler.removeObject();
 		for(String key : GameClient.playerMap.keySet()){
-		   	String player = GameClient.playerMap.get(key);
-		  	String[] temp = player.split(" ");
-		  	Player temp1;
-		 	if(!key.equals("1"+GameClient.uName) || !key.equals("2"+GameClient.uName)){
-				if(key.startsWith("1")){ 
-  					temp1 = new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),null,key,1);
-  					handler.addObject(temp1);
-  					frogs.put(key,temp1);
-				}	
-				else{
-					temp1 = new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),null,key,2);
+	   	String player = GameClient.playerMap.get(key);
+	  	String[] temp = player.split(" ");
+	  	Player temp1;
+		 	if(!key.equals(GameClient.uName)){
+				if(key.startsWith("1")){
+					System.out.println("render " + key + temp[0] + " " + temp[1]);
+					temp1 = new Player(Float.parseFloat(temp[0]),Float.parseFloat(temp[1]),null,key,1);
+					handler.addObject(temp1);
+					frogs.put(key,temp1);
+				} else{
+					System.out.println("render " + key + temp[0] + " " + temp[1]);
+					temp1 = new Player(Float.parseFloat(temp[0]),Float.parseFloat(temp[1]),null,key,2);
 					handler.addObject(temp1);
 	 				frogs.put(key,temp1);
-	 			}		
+	 			}
 		 	}
-	 		
+
 		}
-	            
-    }
+
+  }//close moveOthers
 
 }
