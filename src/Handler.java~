@@ -23,10 +23,12 @@ public class Handler{
 		this.object.add(object);
 	}
 
-	public void removeObject(){
+	public void removeObject(GameObject player){
 		for(GameObject temp : object){
-			if(temp.getUname().compareTo(GameClient.uName));
-			this.object.remove(temp);
+			if(temp.getUname().compareTo(GameClient.uName) != 0){
+				this.object.remove(temp);
+			}
+			
 		}
 		
 		

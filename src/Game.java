@@ -2,13 +2,18 @@ import java.awt.Canvas;
 import java.awt.image.BufferStrategy;
 import java.awt.*;
 import javax.swing.*;
+import java.util.HashMap;
 
 public class Game extends Canvas implements Runnable{
 	private boolean running = false;
 	private Thread thread;
+	private Thread move;
 	private int N;
 	private int team;
+	private Player play;
 	public static int WIDTH,HEIGHT;
+
+	private static HashMap<String,Player> frogs = new HashMap<String,Player>();
 
 	Handler handler = new Handler();
 
@@ -27,15 +32,32 @@ public class Game extends Canvas implements Runnable{
 		for(String key : GameClient.playerMap.keySet()){
 		   	String player = GameClient.playerMap.get(key);
 		  	String[] temp = player.split(" ");
+		  	Player temp1;
 		 	if(key.equals("1"+GameClient.uName) || key.equals("2"+GameClient.uName)){
-					if(key.startsWith("1")) handler.addObject(new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),ObjectId.Player,key,1));
-					else handler.addObject(new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),ObjectId.Player,key,2));
+					if(key.startsWith("1")) {
+						temp1 = new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),ObjectId.Player,key,1);
+						handler.addObject(temp1);
+					}
+					else {
+						temp1 = new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),ObjectId.Player,key,2);
+		 				handler.addObject(temp1);
+		 			}
 		 		}
 	 		else{
-  				if(key.startsWith("1")) handler.addObject(new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),null,key,1));
-					else handler.addObject(new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),null,key,2));
+  				if(key.startsWith("1")){ 
+  					temp1 = new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),null,key,1);
+  					handler.addObject(temp1);
+  					frogs.put(key,temp1);
+				}	
+				else{
+					temp1 = new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),null,key,2);
+					handler.addObject(temp1);
+	 				frogs.put(key,temp1);
+	 			}
 	 		}
 		}
+		
+
 		this.addKeyListener(new KeyInput(handler));
 	 }
 
@@ -62,11 +84,6 @@ public class Game extends Canvas implements Runnable{
 		int frames = 0;
 
 
-
-
-
-
-
 		while(running){
 			long now = System.nanoTime();
 			delta += (now - lastTime) / ns;
@@ -79,6 +96,7 @@ public class Game extends Canvas implements Runnable{
 			int a = 100;
 			render();
 			frames++;
+
 
 			if(System.currentTimeMillis() - timer > 1000){
 				timer += 1000;
@@ -117,11 +135,28 @@ public class Game extends Canvas implements Runnable{
 
 	}
 
-	// public static void addPlayer(){
-	// 	handler.addObject(new Player(50,50,ObjectId.Player));
-	// }
-
-	//add player function
-	//redraw player function (remove previous then draw new players) using hashmap
+	public void moveOthers(){
+					
+		handler.removeObject();
+		for(String key : GameClient.playerMap.keySet()){
+		   	String player = GameClient.playerMap.get(key);
+		  	String[] temp = player.split(" ");
+		  	Player temp1;
+		 	if(!key.equals("1"+GameClient.uName) || !key.equals("2"+GameClient.uName)){
+				if(key.startsWith("1")){ 
+  					temp1 = new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),null,key,1);
+  					handler.addObject(temp1);
+  					frogs.put(key,temp1);
+				}	
+				else{
+					temp1 = new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),null,key,2);
+					handler.addObject(temp1);
+	 				frogs.put(key,temp1);
+	 			}		
+		 	}
+	 		
+		}
+	            
+    }
 
 }
