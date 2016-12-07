@@ -39,8 +39,6 @@ public class KeyInput extends KeyAdapter{
 					tempObject.setY(tempObject.getY()-6);
 				}
 
-				//GameClient.playerMap.put(GameClient.uName,tempObject.getX() + " " + tempObject.getY());
-
 				//=======================================================================
 				try{
 					// DatagramPacket packet = null;
