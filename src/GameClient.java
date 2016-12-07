@@ -103,11 +103,10 @@ public class GameClient{
               }else if(message!=null && !message.equals("") ){
                 String[] temp = message.split(" ");
                 playerMap.put(temp[0], temp[3] + " " + temp[4]);
-                game.moveOthers();
-                //call function here
                 for(String tempKey : playerMap.keySet()){
                   System.out.println(tempKey + " is at " + playerMap.get(tempKey));
                 }
+                // game.moveOthers();
               }//close if
               }
           }

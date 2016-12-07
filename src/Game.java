@@ -33,27 +33,23 @@ public class Game extends Canvas implements Runnable{
 	   	String player = GameClient.playerMap.get(key);
 	  	String[] temp = player.split(" ");
 	  	Player temp1;
-			System.out.println("key is " + key + " " + GameClient.uName);
+
 		 	if(key.equals(GameClient.uName) || key.equals(GameClient.uName)){
 					if(key.startsWith("1")) {
-						System.out.println("team1 created 1 player");
 						temp1 = new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),ObjectId.Player,key,1);
 						handler.addObject(temp1);
 					}
 					else {
-						System.out.println("team2 created 1 player");
 						temp1 = new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),ObjectId.Player,key,2);
 		 				handler.addObject(temp1);
 		 			}
 		 		}
 	 		else{
 				if(key.startsWith("1")){
-					System.out.println("hehe");
 					temp1 = new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),null,key,1);
 					handler.addObject(temp1);
 					frogs.put(key,temp1);
 				} else{
-					System.out.println("hoho");
 					temp1 = new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),null,key,2);
 					handler.addObject(temp1);
 	 				frogs.put(key,temp1);
@@ -101,10 +97,9 @@ public class Game extends Canvas implements Runnable{
 			render();
 			frames++;
 
-
+			moveOthers();
 			if(System.currentTimeMillis() - timer > 1000){
 				timer += 1000;
-				// System.out.println("FPS: " + frames + " TICKS: " + updates);
 				frames = 0;
 				updates = 0;
 			}
@@ -128,8 +123,6 @@ public class Game extends Canvas implements Runnable{
 
 		ImageIcon bg = new ImageIcon("../img/bg.jpg");
 		Image bgI = bg.getImage();
-		//bgI= bgI.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
-		//g.fillRect(0,0 ,getWidth(),getHeight());
 		g.drawImage(bgI,0,0,null);
 
 		handler.render(g);
@@ -147,20 +140,16 @@ public class Game extends Canvas implements Runnable{
 	  	Player temp1;
 		 	if(!key.equals(GameClient.uName)){
 				if(key.startsWith("1")){
-					System.out.println("render " + key + temp[0] + " " + temp[1]);
 					temp1 = new Player(Float.parseFloat(temp[0]),Float.parseFloat(temp[1]),null,key,1);
 					handler.addObject(temp1);
 					frogs.put(key,temp1);
 				} else{
-					System.out.println("render " + key + temp[0] + " " + temp[1]);
 					temp1 = new Player(Float.parseFloat(temp[0]),Float.parseFloat(temp[1]),null,key,2);
 					handler.addObject(temp1);
 	 				frogs.put(key,temp1);
 	 			}
 		 	}
-
-		}
-
+		}//close for
   }//close moveOthers
 
 }

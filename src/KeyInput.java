@@ -19,12 +19,27 @@ public class KeyInput extends KeyAdapter{
 		for(int i=0;i<handler.object.size();i++){
 			GameObject tempObject = handler.object.get(i);
 			if(tempObject.getId() == ObjectId.Player){
-				if(key == KeyEvent.VK_D)tempObject.setVelX(3);
-				if(key == KeyEvent.VK_A)tempObject.setVelX (-3);
-				if(key == KeyEvent.VK_S)tempObject.setVelY(3);
-				if(key == KeyEvent.VK_W)tempObject.setVelY(-3);
+				System.out.println(tempObject.getX() + " " + tempObject.getY());
+				if(key == KeyEvent.VK_D)tempObject.setX(tempObject.getX()+6);
+				if(key == KeyEvent.VK_A)tempObject.setX (tempObject.getX()-6);
+				if(key == KeyEvent.VK_S)tempObject.setY(tempObject.getY()+6);
+				if(key == KeyEvent.VK_W)tempObject.setY(tempObject.getY()-6);
+
+				//GameClient.playerMap.put(GameClient.uName,tempObject.getX() + " " + tempObject.getY());
 
 				//=======================================================================
+				try{
+					// DatagramPacket packet = null;
+					if(GameClient.isConnected){
+						System.out.println(tempObject.getX() + " " + tempObject.getY());
+						String message = GameClient.uName + " is at " + tempObject.getX() + " " + tempObject.getY();
+						System.out.println(GameClient.playerMap.size());
+						GameClient.send(message);
+					}
+				} catch(Exception ee){
+					ee.printStackTrace();
+				}
+
 				try{
 					// DatagramPacket packet = null;
 					if(GameClient.isConnected){
