@@ -6,6 +6,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.HashMap;
 import java.util.Iterator;
+import javax.swing.text.DefaultCaret;
 
 public class GameClient{
   static DatagramSocket socket;
@@ -22,8 +23,10 @@ public class GameClient{
     JPanel chatPanel = new JPanel();
 
     final JTextArea chatDump = new JTextArea(3,400);
-    final JScrollPane chatScroll = new JScrollPane(chatDump);
+    final JScrollPane chatScroll = new JScrollPane(chatDump, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     final JTextField chatInput = new JTextField();
+    DefaultCaret caret = (DefaultCaret)chatDump.getCaret();
+    caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
     chatDump.setEditable(false);
     chatInput.setPreferredSize(new Dimension(580,20));
@@ -80,7 +83,7 @@ public class GameClient{
             }
             else if(isConnected && message.startsWith("Start")){
             	System.out.println("aaaaaaa");
-				String message2 = username + " is at 50 50";            
+				String message2 = username + " is at 50 50";
             	send(message2);
             }
             else if(isConnected){
@@ -160,7 +163,7 @@ public class GameClient{
 
 
   	Game game = new Game(playerMap.size());
-	System.out.println(playerMap.size()); 
+	System.out.println(playerMap.size());
   	chatPanel.setLayout(new BorderLayout());
   	chatPanel.setPreferredSize(new Dimension(580,100));
   	chatPanel.add(chatScroll, BorderLayout.CENTER);
