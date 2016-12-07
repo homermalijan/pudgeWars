@@ -172,13 +172,13 @@ public class GameClient{
 
 
 
-    chatPanel.setLayout(new BorderLayout());
-    chatPanel.setPreferredSize(new Dimension(580,100));
-    chatPanel.add(chatScroll, BorderLayout.CENTER);
-    chatPanel.add(chatInput, BorderLayout.SOUTH);
-    gameContainer.add(chatPanel, BorderLayout.SOUTH);
-    gameFrame.pack();
-    gameFrame.setVisible(true);
+  	chatPanel.setLayout(new BorderLayout());
+  	chatPanel.setPreferredSize(new Dimension(580,100));
+  	chatPanel.add(chatScroll, BorderLayout.CENTER);
+  	chatPanel.add(chatInput, BorderLayout.SOUTH);
+  	gameContainer.add(chatPanel, BorderLayout.SOUTH);
+  	gameFrame.pack();
+  	gameFrame.setVisible(true);
 
   }//close main
 
