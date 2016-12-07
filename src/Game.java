@@ -9,7 +9,7 @@ public class Game extends Canvas implements Runnable{
 	private int N;
 	public static int WIDTH,HEIGHT;
 
-	Handler handler;
+	Handler handler = new Handler();
 
 	public Game(){
 		// this.N = N;
@@ -19,20 +19,24 @@ public class Game extends Canvas implements Runnable{
 		WIDTH = getWidth();
 		HEIGHT = getHeight();
 
+<<<<<<< HEAD
+=======
 		handler = new Handler();
 
 		handler.addObject(new Player(50, 50, ObjectId.Player, "key"));
 		/*
+>>>>>>> 4216a40f5d58487e0d8eb22e58d4b7d32c628d29
 		for(String key : GameClient.playerMap.keySet()){
-		  	String player = GameClient.playerMap.get(key);
-		 	 String[] temp = player.split(" ");
-
-		// 	 if(key.compareTo(GameClient.uName) != 0){
-
-		 //x		 }
-
+		   	String player = GameClient.playerMap.get(key);
+		  	String[] temp = player.split(" ");
+		 // 	if(key.equals(GameClient.uName)){
+		   		handler.addObject(new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),ObjectId.Player,key));
+		 //		}
+	 	//	else{
+  		//		handler.addObject(new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),null,key));
+	 	//	}
 		}
-		*/
+		
 		this.addKeyListener(new KeyInput(handler));
 	 }
 
@@ -43,11 +47,13 @@ public class Game extends Canvas implements Runnable{
 		thread = new Thread(this);
 		thread.start();
 	}
+	
+	
 
 	public void run(){
 		init();
 		this.requestFocus();
-
+		
 		long lastTime = System.nanoTime();
 		double amountOfTicks = 60.0;
 		double ns = 1000000000 / amountOfTicks;
@@ -72,29 +78,6 @@ public class Game extends Canvas implements Runnable{
 				delta--;
 			}
 			int a = 100;
-
-			/*
-			//
-			for(int i=0;i<GameClient.playerMap.size();i++){
-				handler.addObject(new Other(a,50,ObjectId.Other));
-				a+=100;
-			}
-			*/
-			// handler.removeObject();
-			// for(String key : GameClient.playerMap.keySet()){
-			//   	String player = GameClient.playerMap.get(key);
-			//  	String[] temp = player.split(" ");
-			//   	if(key.compareTo(GameClient.uName) == 0){
-			//   		handler.addObject(new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),ObjectId.Player,key));
-			// 		}
-			// 		else{
-		 // 			handler.addObject(new Other(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),ObjectId.Other,key));
-			// 		}
-			// 	}
-
-
-
-
 			render();
 			frames++;
 

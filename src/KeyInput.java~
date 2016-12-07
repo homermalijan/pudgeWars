@@ -25,7 +25,7 @@ public class KeyInput extends KeyAdapter{
 				if(key == KeyEvent.VK_S)tempObject.setVelY(1);
 				if(key == KeyEvent.VK_W)tempObject.setVelY(-1);
 				
-				GameClient.playerMap.put(GameClient.uName,tempObject.getX() + " " + tempObject.getY());
+				//GameClient.playerMap.put(GameClient.uName,tempObject.getX() + " " + tempObject.getY());
 				
 				//=======================================================================
 				try{

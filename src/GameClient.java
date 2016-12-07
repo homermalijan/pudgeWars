@@ -33,6 +33,8 @@ public class GameClient{
     gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     gameFrame.setPreferredSize(new Dimension(600,500));
 
+	final Game game = new Game();
+ 	gameContainer.add(game, BorderLayout.CENTER);
     try{
         final String username = args[2];
         final String serverName = args[0]; //get IP address of server from first param
@@ -78,6 +80,7 @@ public class GameClient{
             }else if(isConnected){
               if(isConnected && message.startsWith("Start")){
                 System.out.println("Game Start!");
+                game.start();
               }else if(isConnected && message.startsWith("playerName")){
                 System.out.println("player received");
                 playerMap.put(message.split(" ")[1], "50 " + (50+ (50*playerMap.size())));
@@ -159,8 +162,8 @@ public class GameClient{
         System.exit(1);
     }
 
-    Game game = new Game();
-    gameContainer.add(game, BorderLayout.CENTER);
+    
+   
   	chatPanel.setLayout(new BorderLayout());
   	chatPanel.setPreferredSize(new Dimension(580,100));
   	chatPanel.add(chatScroll, BorderLayout.CENTER);
@@ -168,7 +171,7 @@ public class GameClient{
   	gameContainer.add(chatPanel, BorderLayout.SOUTH);
   	gameFrame.pack();
   	gameFrame.setVisible(true);
-    game.start();
+
   }//close main
 
   public static void send(String msg){
