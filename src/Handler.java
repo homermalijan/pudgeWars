@@ -23,6 +23,16 @@ public class Handler{
 		this.object.add(object);
 	}
 
+	public void collision(){
+		for (int i=0; i<object.size(); i++){
+			tempObject = object.get(i);
+			if(tempObject.getId() == ObjectId.Tongue){
+				Tongue temp = (Tongue) tempObject; 
+				temp.collision(object);
+			}
+		}
+	}
+
 	public void removeObject(){
 		for(GameObject temp : object){
 			if(temp.getUname().compareTo(GameClient.uName) != 0){
