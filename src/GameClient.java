@@ -103,6 +103,11 @@ public class GameClient{
               }else if(isConnected && message.startsWith("dead")){
                 String deadMeat = message.split(" ")[1];
                 playerMap.put(deadMeat,"99999 99999");
+              }else if(isConnected && message.startsWith("Endgame")){
+                System.out.println("tapos na");
+                //
+                //
+                //
               }else if(message!=null && !message.equals("") ){
                 String[] temp = message.split(" ");
                 playerMap.put(temp[0], temp[3] + " " + temp[4]);
