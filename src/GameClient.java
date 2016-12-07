@@ -64,7 +64,9 @@ public class GameClient{
 
             String message = new String(buffer);
             message = message.trim();
-            if(!isConnected && message.startsWith("Connected")){
+            if(!isConnected && (message.startsWith("1Connected") || message.startsWith("2Connected"))){
+              if(message.startsWith("1")) System.out.println("Team 1");
+              else System.out.println("Team 2");
               isConnected = true;
               System.out.println("You are now connected");
 		  	    }else if(!isConnected && message.startsWith("No")){
@@ -83,6 +85,7 @@ public class GameClient{
                 System.out.println(message);
                 String[] temp = message.split(" ");
                 playerMap.put(temp[0], temp[3] + " " + temp[4]);
+                //call function here
                 for(String tempKey : playerMap.keySet()){
                   System.out.println(tempKey + " is at " + playerMap.get(tempKey));
                 }
@@ -162,7 +165,7 @@ public class GameClient{
   	chatPanel.setPreferredSize(new Dimension(580,100));
   	chatPanel.add(chatScroll, BorderLayout.CENTER);
   	chatPanel.add(chatInput, BorderLayout.SOUTH);
-  	gameContainer.add(chatPanel, BorderLayout.SOUTH); 
+  	gameContainer.add(chatPanel, BorderLayout.SOUTH);
   	gameFrame.pack();
   	gameFrame.setVisible(true);
     game.start();

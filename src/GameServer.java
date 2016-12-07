@@ -72,7 +72,9 @@ public class GameServer extends Thread{
             server = new DatagramSocket(port+1);
             server.setSoTimeout(100);
           }catch(Exception e){}
-
+          int teamCounter = 1;
+          int teamOne = 0;
+          int teamTwo = 0;
           //start tcp infinite loop
           while(true){
             byte[] buffer = new byte[256];
@@ -90,7 +92,14 @@ public class GameServer extends Thread{
                   continue;
                 }
                 clientMap.put(name, packet);
-                send(packet, "Connected " + InetAddress.getLocalHost());
+                if(teamCounter%2 == 1){
+                  teamOne++;
+                  send(packet, "1Connected " + InetAddress.getLocalHost());
+                }else{
+                  teamTwo++;
+                  send(packet, "2Connected " + InetAddress.getLocalHost());
+                }
+                teamCounter++;
                 System.out.println("connecting..");
                 if(clientMap.size() == playerCount){
                 	byte[] buffer2 = new byte[256];
@@ -105,7 +114,11 @@ public class GameServer extends Thread{
                 }
               }else{
                 //broadcast position only if there is enough player count
-                if(clientMap.size() == playerCount) broadcast(message + " " + InetAddress.getLocalHost());
+                if(clientMap.size() == playerCount){
+                  broadcast(message + " " + InetAddress.getLocalHost());
+                  System.out.println("Team 1: " + teamOne);
+                  System.out.println("Team 2: " + teamTwo);
+                }
               }
 
             }catch(Exception e){}

@@ -21,9 +21,6 @@ public class Game extends Canvas implements Runnable{
 
 		handler = new Handler();
 
-
-
-
 		handler.addObject(new Player(50, 50, ObjectId.Player, "key"));
 		/*
 		for(String key : GameClient.playerMap.keySet()){
