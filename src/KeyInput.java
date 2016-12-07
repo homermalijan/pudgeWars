@@ -42,12 +42,12 @@ public class KeyInput extends KeyAdapter{
 					Tongue tempT;
 					if(tempObject.getUname().startsWith("1")){
 						tempT = new Tongue(tempObject.getX()+50,tempObject.getY(),ObjectId.Tongue,"Tongue",5,this.handler);
-						handler.addObject(tempT);	
+						handler.addObject(tempT);
 					}
 					else{
 						tempT = new Tongue(tempObject.getX()-50,tempObject.getY(),ObjectId.Tongue,"Tongue",-5,this.handler);
 						handler.addObject(tempT);
-					}	
+					}
 				}
 
 				//=======================================================================

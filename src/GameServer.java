@@ -115,6 +115,12 @@ public class GameServer extends Thread{
                     send(clientMap.get(tempKey),"sent");
                   }
                 }
+              }else if(message.startsWith("dead")){
+                String deadMeat = message.split(" ")[1];
+                System.out.println("patay na si " + deadMeat);
+                if(deadMeat.charAt(0) == '1') teamOne--;
+                else teamTwo--;
+                broadcast(message);
               }else{
                 //broadcast position only if there is enough player count
                 if(clientMap.size() == playerCount){

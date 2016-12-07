@@ -17,7 +17,7 @@ public class Tongue extends GameObject{
 	public void tick(LinkedList<GameObject> object){
 		if(x+velX>=Game.WIDTH) object.remove(this);
 		x += velX;
-		
+
 		collision(object);
 	}
 	public void render(Graphics g){
@@ -27,8 +27,8 @@ public class Tongue extends GameObject{
 	public Rectangle getBounds(){
 		return new Rectangle((int)x,(int)y,32,32);
 	}
-	
-	
+
+
 	public void collision(LinkedList<GameObject> object){
 		for(int i = 0; i < handler.object.size(); i++){
 			GameObject tempObject = handler.object.get(i);
@@ -37,7 +37,17 @@ public class Tongue extends GameObject{
 				if(getBounds().intersects(tempObject.getBounds())){
 					object.remove(this);
 					object.remove(tempObject);
-					
+					try{
+						// DatagramPacket packet = null;
+						if(GameClient.isConnected){
+							System.out.println(tempObject.getX() + " " + tempObject.getY());
+							String message = "dead " + tempObject.getUname();
+							GameClient.send(message);
+						}
+					} catch(Exception ee){
+						ee.printStackTrace();
+					}
+
 				}
 			}
 		}
