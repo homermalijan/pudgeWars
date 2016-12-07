@@ -38,6 +38,17 @@ public class KeyInput extends KeyAdapter{
 					if(tempObject.getY()-6 < 0) break;
 					tempObject.setY(tempObject.getY()-6);
 				}
+				if(key == KeyEvent.VK_SPACE){
+					Tongue tempT;
+					if(tempObject.getUname().startsWith("1")){
+						tempT = new Tongue(tempObject.getX()+50,tempObject.getY(),ObjectId.Tongue,"Tongue",5,this.handler);
+						handler.addObject(tempT);	
+					}
+					else{
+						tempT = new Tongue(tempObject.getX()-50,tempObject.getY(),ObjectId.Tongue,"Tongue",-5,this.handler);
+						handler.addObject(tempT);
+					}	
+				}
 
 				//=======================================================================
 				try{
