@@ -91,8 +91,14 @@ public class GameClient{
                 System.out.println("Game Start!");
               }else if(isConnected && message.startsWith("playerName")){
                 System.out.println("player received");
-                playerMap.put(message.split(" ")[1], "50 " + (50+(50*(playerMap.size()+1))));
+                playerMap.put(message.split(" ")[1], "50 " + ((50*(playerMap.size()+1))));
               }else if(isConnected && message.startsWith("sent")){
+                for(String tempKey : playerMap.keySet()){
+                  if(tempKey.startsWith("2")){
+                    String[] tempHolder = playerMap.get(tempKey).split(" ");
+                    playerMap.put(tempKey, (Integer.parseInt(tempHolder[0])+420) + " " + tempHolder[1]);
+                  }
+                }
                 game.start(team);
               }else if(message!=null && !message.equals("") ){
                 String[] temp = message.split(" ");
