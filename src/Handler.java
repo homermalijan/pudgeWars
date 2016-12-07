@@ -27,7 +27,7 @@ public class Handler{
 		for (int i=0; i<object.size(); i++){
 			tempObject = object.get(i);
 			if(tempObject.getId() == ObjectId.Tongue){
-				Tongue temp = (Tongue) tempObject; 
+				Tongue temp = (Tongue) tempObject;
 				temp.collision(object);
 			}
 		}
@@ -36,6 +36,14 @@ public class Handler{
 	public void removeObject(){
 		for(GameObject temp : object){
 			if(temp.getUname().compareTo(GameClient.uName) != 0){
+				this.object.remove(temp);
+			}
+		}//close for
+	}//close removeObjects
+
+	public void removeOne(String name){
+		for(GameObject temp : object){
+			if(temp.getUname().compareTo(name) == 0){
 				this.object.remove(temp);
 			}
 		}//close for

@@ -131,6 +131,11 @@ public class Game extends Canvas implements Runnable{
 
 	}
 
+	public void removeMyself(String temp){
+		System.out.println("kill " + temp);
+		handler.removeOne(temp);
+	}
+
 	public void moveOthers(){
 		handler.removeObject();
 		for(String key : GameClient.playerMap.keySet()){

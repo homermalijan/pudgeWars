@@ -41,6 +41,7 @@ public class Tongue extends GameObject{
 						// DatagramPacket packet = null;
 						if(GameClient.isConnected){
 							System.out.println(tempObject.getX() + " " + tempObject.getY());
+							System.out.println(tempObject.getUname());
 							String message = "dead " + tempObject.getUname();
 							GameClient.send(message);
 						}

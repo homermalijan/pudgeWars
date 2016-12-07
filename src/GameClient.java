@@ -103,6 +103,7 @@ public class GameClient{
               }else if(isConnected && message.startsWith("dead")){
                 String deadMeat = message.split(" ")[1];
                 playerMap.put(deadMeat,"99999 99999");
+                if(deadMeat.equals(uName)) game.removeMyself(deadMeat);
               }else if(isConnected && message.startsWith("Endgame")){
                 System.out.println("tapos na");
                 //
