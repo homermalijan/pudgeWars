@@ -91,34 +91,28 @@ public class GameServer extends Thread{
                   send(packet, "No");
                   continue;
                 }
-                clientMap.put(name, packet);
+
                 if(teamCounter%2 == 1){
                   teamOne++;
+                  clientMap.put("1"+name, packet);
                   send(packet, "1Connected " + InetAddress.getLocalHost());
                 }else{
                   teamTwo++;
                   send(packet, "2Connected " + InetAddress.getLocalHost());
+                  clientMap.put("2"+name, packet);
                 }
                 teamCounter++;
                 System.out.println("connecting..");
                 if(clientMap.size() == playerCount){
-<<<<<<< HEAD
-                  for (String key : clientMap.keySet()) {
-                      send(clientMap.get(key), "Game Start!");
-                      for (String key2 : clientMap.keySet()) {
-                          send(clientMap.get(key), "playerName " + key2);
-
-                      }
-=======
-                	byte[] buffer2 = new byte[256];
-                	DatagramPacket packet2 = new DatagramPacket(buffer2, buffer2.length);
-                	System.out.println("Players Complete");
-                	broadcast("Start");
+                  byte[] buffer2 = new byte[256];
+                  DatagramPacket packet2 = new DatagramPacket(buffer2, buffer2.length);
+                  System.out.println("Players Complete");
+                  broadcast("Start");
                   for(String tempKey : clientMap.keySet()){
                     for(String tempKey2 : clientMap.keySet()){
                       send(clientMap.get(tempKey),"playerName " + tempKey2);
                     }
->>>>>>> b106afd7d69213fe0f0d7672125410c651237a35
+                    send(clientMap.get(tempKey),"sent");
                   }
                 }
               }else{
