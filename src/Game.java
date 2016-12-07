@@ -9,24 +9,39 @@ public class Game extends Canvas implements Runnable{
 	private int N;
 	public static int WIDTH,HEIGHT;
 
+<<<<<<< HEAD
 	Handler handler;
 
 	public Game(int N){
 		this.N = N;
+=======
+	Handler handler = new Handler();
+
+	public Game(){
+		// this.N = N;
+>>>>>>> b106afd7d69213fe0f0d7672125410c651237a35
 	}
 
 	private void init(){
 		WIDTH = getWidth();
 		HEIGHT = getHeight();
 
+<<<<<<< HEAD
+=======
 		handler = new Handler();
 
+<<<<<<< HEAD
 
 
 
 
+=======
+		handler.addObject(new Player(50, 50, ObjectId.Player, "key"));
+>>>>>>> b106afd7d69213fe0f0d7672125410c651237a35
 		/*
+>>>>>>> 4216a40f5d58487e0d8eb22e58d4b7d32c628d29
 		for(String key : GameClient.playerMap.keySet()){
+<<<<<<< HEAD
 		  	String player = GameClient.playerMap.get(key);
 		 	 String[] temp = player.split(" ");
 
@@ -36,6 +51,18 @@ public class Game extends Canvas implements Runnable{
 
 		}
 		*/
+=======
+		   	String player = GameClient.playerMap.get(key);
+		  	String[] temp = player.split(" ");
+		 // 	if(key.equals(GameClient.uName)){
+		   		handler.addObject(new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),ObjectId.Player,key));
+		 //		}
+	 	//	else{
+  		//		handler.addObject(new Player(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),null,key));
+	 	//	}
+		}
+		
+>>>>>>> b106afd7d69213fe0f0d7672125410c651237a35
 		this.addKeyListener(new KeyInput(handler));
 	 }
 
@@ -46,11 +73,13 @@ public class Game extends Canvas implements Runnable{
 		thread = new Thread(this);
 		thread.start();
 	}
+	
+	
 
 	public void run(){
 		init();
 		this.requestFocus();
-
+		
 		long lastTime = System.nanoTime();
 		double amountOfTicks = 60.0;
 		double ns = 1000000000 / amountOfTicks;
@@ -75,6 +104,7 @@ public class Game extends Canvas implements Runnable{
 				delta--;
 			}
 			int a = 100;
+<<<<<<< HEAD
 
 			/*
 			//
@@ -98,6 +128,8 @@ public class Game extends Canvas implements Runnable{
 
 
 
+=======
+>>>>>>> b106afd7d69213fe0f0d7672125410c651237a35
 			render();
 			frames++;
 

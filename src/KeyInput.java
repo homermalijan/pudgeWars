@@ -20,10 +20,10 @@ public class KeyInput extends KeyAdapter{
 			GameObject tempObject = handler.object.get(i);
 
 			if(tempObject.getId() == ObjectId.Player){
-				if(key == KeyEvent.VK_D)tempObject.setVelX(1);
-				if(key == KeyEvent.VK_A)tempObject.setVelX (-1);
-				if(key == KeyEvent.VK_S)tempObject.setVelY(1);
-				if(key == KeyEvent.VK_W)tempObject.setVelY(-1);
+				if(key == KeyEvent.VK_D)tempObject.setVelX(3);
+				if(key == KeyEvent.VK_A)tempObject.setVelX (-3);
+				if(key == KeyEvent.VK_S)tempObject.setVelY(3);
+				if(key == KeyEvent.VK_W)tempObject.setVelY(-3);
 				
 				//GameClient.playerMap.put(GameClient.uName,tempObject.getX() + " " + tempObject.getY());
 				

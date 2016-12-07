@@ -72,7 +72,10 @@ public class GameServer extends Thread{
             server = new DatagramSocket(port+1);
             server.setSoTimeout(100);
           }catch(Exception e){}
-
+          int teamCounter = 1;
+          int teamOne = 0;
+          int teamTwo = 0;
+          //start tcp infinite loop
           while(true){
             byte[] buffer = new byte[256];
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
@@ -89,20 +92,42 @@ public class GameServer extends Thread{
                   continue;
                 }
                 clientMap.put(name, packet);
-                send(packet, "Connected " + InetAddress.getLocalHost());
+                if(teamCounter%2 == 1){
+                  teamOne++;
+                  send(packet, "1Connected " + InetAddress.getLocalHost());
+                }else{
+                  teamTwo++;
+                  send(packet, "2Connected " + InetAddress.getLocalHost());
+                }
+                teamCounter++;
                 System.out.println("connecting..");
                 if(clientMap.size() == playerCount){
+<<<<<<< HEAD
                   for (String key : clientMap.keySet()) {
                       send(clientMap.get(key), "Game Start!");
                       for (String key2 : clientMap.keySet()) {
                           send(clientMap.get(key), "playerName " + key2);
 
                       }
+=======
+                	byte[] buffer2 = new byte[256];
+                	DatagramPacket packet2 = new DatagramPacket(buffer2, buffer2.length);
+                	System.out.println("Players Complete");
+                	broadcast("Start");
+                  for(String tempKey : clientMap.keySet()){
+                    for(String tempKey2 : clientMap.keySet()){
+                      send(clientMap.get(tempKey),"playerName " + tempKey2);
+                    }
+>>>>>>> b106afd7d69213fe0f0d7672125410c651237a35
                   }
                 }
               }else{
                 //broadcast position only if there is enough player count
-                if(clientMap.size() == playerCount) broadcast(message + " " + InetAddress.getLocalHost());
+                if(clientMap.size() == playerCount){
+                  broadcast(message + " " + InetAddress.getLocalHost());
+                  System.out.println("Team 1: " + teamOne);
+                  System.out.println("Team 2: " + teamTwo);
+                }
               }
 
             }catch(Exception e){}

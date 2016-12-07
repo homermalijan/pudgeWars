@@ -6,6 +6,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.HashMap;
 import java.util.Iterator;
+import javax.swing.text.DefaultCaret;
 
 public class GameClient{
   static DatagramSocket socket;
@@ -16,20 +17,24 @@ public class GameClient{
 
   public static void main(String [] args){
     JFrame gameFrame = new JFrame("Frog Wars");
-    Container gameContainer = gameFrame.getContentPane();
+    final Container gameContainer = gameFrame.getContentPane();
     gameContainer.setLayout(new BorderLayout());
-    JPanel gamePanel = new JPanel();
+    final JPanel gamePanel = new JPanel();
     JPanel chatPanel = new JPanel();
 
     final JTextArea chatDump = new JTextArea(3,400);
-    final JScrollPane chatScroll = new JScrollPane(chatDump);
+    final JScrollPane chatScroll = new JScrollPane(chatDump, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     final JTextField chatInput = new JTextField();
+    DefaultCaret caret = (DefaultCaret)chatDump.getCaret();
+    caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
     chatDump.setEditable(false);
     chatInput.setPreferredSize(new Dimension(580,20));
     gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     gameFrame.setPreferredSize(new Dimension(600,500));
 
+	final Game game = new Game();
+ 	gameContainer.add(game, BorderLayout.CENTER);
     try{
         final String username = args[2];
         final String serverName = args[0]; //get IP address of server from first param
@@ -63,8 +68,45 @@ public class GameClient{
                 socket.receive(packet);
               }catch(Exception e){}
 
+<<<<<<< HEAD
               String message = new String(buffer);
               message = message.trim();
+=======
+            String message = new String(buffer);
+            message = message.trim();
+            if(!isConnected && (message.startsWith("1Connected") || message.startsWith("2Connected"))){
+              if(message.startsWith("1")) System.out.println("Team 1");
+              else System.out.println("Team 2");
+              isConnected = true;
+              System.out.println("You are now connected");
+		  	    }else if(!isConnected && message.startsWith("No")){
+              System.out.println("Cannot Accomodate more players :(");
+              break;
+            }else if(!isConnected){
+              System.out.println("Connecting..");
+              send("Connect " + username);
+            }else if(isConnected){
+              if(isConnected && message.startsWith("Start")){
+                System.out.println("Game Start!");
+                game.start();
+              }else if(isConnected && message.startsWith("playerName")){
+                System.out.println("player received");
+                playerMap.put(message.split(" ")[1], "50 " + (50+ (50*playerMap.size())));
+              }else if(message!=null && !message.equals("") ){
+                System.out.println(message);
+                String[] temp = message.split(" ");
+                playerMap.put(temp[0], temp[3] + " " + temp[4]);
+                //call function here
+                for(String tempKey : playerMap.keySet()){
+                  System.out.println(tempKey + " is at " + playerMap.get(tempKey));
+                }
+              }//close if
+              }
+          }
+        }//close run
+      }.start();
+  //=================================================
+>>>>>>> b106afd7d69213fe0f0d7672125410c651237a35
 
               if(!isConnected && message.startsWith("Connected")){            //player succesfully connects
                 isConnected = true;
@@ -165,16 +207,24 @@ public class GameClient{
         System.exit(1);
     }
 
+<<<<<<< HEAD
   	Game game = new Game(playerMap.size());
+=======
+    
+   
+>>>>>>> b106afd7d69213fe0f0d7672125410c651237a35
   	chatPanel.setLayout(new BorderLayout());
   	chatPanel.setPreferredSize(new Dimension(580,100));
   	chatPanel.add(chatScroll, BorderLayout.CENTER);
   	chatPanel.add(chatInput, BorderLayout.SOUTH);
   	gameContainer.add(chatPanel, BorderLayout.SOUTH);
-  	gameContainer.add(game, BorderLayout.CENTER);
   	gameFrame.pack();
   	gameFrame.setVisible(true);
+<<<<<<< HEAD
   	game.start();
+=======
+
+>>>>>>> b106afd7d69213fe0f0d7672125410c651237a35
   }//close main
 
 //=============================================================
