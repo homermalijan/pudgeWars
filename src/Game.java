@@ -97,7 +97,6 @@ public class Game extends Canvas implements Runnable{
 			render();
 			frames++;
 
-			moveOthers();
 			if(System.currentTimeMillis() - timer > 1000){
 				timer += 1000;
 				frames = 0;

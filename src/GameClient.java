@@ -106,7 +106,7 @@ public class GameClient{
                 for(String tempKey : playerMap.keySet()){
                   System.out.println(tempKey + " is at " + playerMap.get(tempKey));
                 }
-                // game.moveOthers();
+                game.moveOthers();
               }//close if
               }
           }

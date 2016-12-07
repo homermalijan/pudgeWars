@@ -20,10 +20,24 @@ public class KeyInput extends KeyAdapter{
 			GameObject tempObject = handler.object.get(i);
 			if(tempObject.getId() == ObjectId.Player){
 				System.out.println(tempObject.getX() + " " + tempObject.getY());
-				if(key == KeyEvent.VK_D)tempObject.setX(tempObject.getX()+6);
-				if(key == KeyEvent.VK_A)tempObject.setX (tempObject.getX()-6);
-				if(key == KeyEvent.VK_S)tempObject.setY(tempObject.getY()+6);
-				if(key == KeyEvent.VK_W)tempObject.setY(tempObject.getY()-6);
+				if(key == KeyEvent.VK_D){
+					if(tempObject.getUname().startsWith("1") && (tempObject.getX()+6 > 95)) break;
+					if(tempObject.getUname().startsWith("2") && (tempObject.getX()+6 > 500)) break;
+					tempObject.setX(tempObject.getX()+6);
+				}
+				if(key == KeyEvent.VK_A){
+					if(tempObject.getUname().startsWith("1") && (tempObject.getX()-6 < 0)) break;
+					if(tempObject.getUname().startsWith("2") && (tempObject.getX()-6 < 420)) break;
+					tempObject.setX (tempObject.getX()-6);
+				}
+				if(key == KeyEvent.VK_S){
+					if(tempObject.getY()+6 > 290) break;
+					tempObject.setY(tempObject.getY()+6);
+				}
+				if(key == KeyEvent.VK_W){
+					if(tempObject.getY()-6 < 0) break;
+					tempObject.setY(tempObject.getY()-6);
+				}
 
 				//GameClient.playerMap.put(GameClient.uName,tempObject.getX() + " " + tempObject.getY());
 
@@ -32,17 +46,6 @@ public class KeyInput extends KeyAdapter{
 					// DatagramPacket packet = null;
 					if(GameClient.isConnected){
 						System.out.println(tempObject.getX() + " " + tempObject.getY());
-						String message = GameClient.uName + " is at " + tempObject.getX() + " " + tempObject.getY();
-						System.out.println(GameClient.playerMap.size());
-						GameClient.send(message);
-					}
-				} catch(Exception ee){
-					ee.printStackTrace();
-				}
-
-				try{
-					// DatagramPacket packet = null;
-					if(GameClient.isConnected){
 						String message = GameClient.uName + " is at " + tempObject.getX() + " " + tempObject.getY();
 						System.out.println(GameClient.playerMap.size());
 						GameClient.send(message);
