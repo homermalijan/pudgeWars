@@ -18,8 +18,12 @@ public class GameClient{
   public static void main(String [] args){
     JFrame gameFrame = new JFrame("Frog Wars");
     final Container gameContainer = gameFrame.getContentPane();
+    
+    
+    // final JPanel gamePanel = new JPanel();
+    WaitPanel waitPanel = new WaitPanel();
+    gameContainer.add(waitPanel); 
     gameContainer.setLayout(new BorderLayout());
-    final JPanel gamePanel = new JPanel();
     JPanel chatPanel = new JPanel();
 
     final JTextArea chatDump = new JTextArea(3,400);
@@ -34,7 +38,9 @@ public class GameClient{
     gameFrame.setPreferredSize(new Dimension(600,500));
 
   final Game game = new Game();
+  
   gameContainer.add(game, BorderLayout.CENTER);
+  // gameContainer.add(new JLabel("hi po"), BorderLayout.SOUTH);
     try{
         final String username = args[2];
         final String serverName = args[0]; //get IP address of server from first param
