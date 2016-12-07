@@ -71,10 +71,12 @@ public class GameClient{
               if(message.startsWith("1")){
                 System.out.println("Team 1");
                 team = 1;
+                uName = "1" + uName;
               }
               else{
                 System.out.println("Team 2");
                 team = 2;
+                uName = "2" + uName;
               }
               isConnected = true;
               System.out.println("You are now connected");
@@ -89,17 +91,28 @@ public class GameClient{
                 System.out.println("Game Start!");
               }else if(isConnected && message.startsWith("playerName")){
                 System.out.println("player received");
-                playerMap.put(message.split(" ")[1], "50 " + (50+(50*(playerMap.size()+1))));
+                playerMap.put(message.split(" ")[1], "50 " + ((50*(playerMap.size()+1))));
               }else if(isConnected && message.startsWith("sent")){
+                for(String tempKey : playerMap.keySet()){
+                  if(tempKey.startsWith("2")){
+                    String[] tempHolder = playerMap.get(tempKey).split(" ");
+                    playerMap.put(tempKey, (Integer.parseInt(tempHolder[0])+420) + " " + tempHolder[1]);
+                  }
+                }
                 game.start(team);
+              }else if(isConnected && message.startsWith("dead")){
+                String deadMeat = message.split(" ")[1];
+                playerMap.put(deadMeat,"99999 99999");
+                if(deadMeat.equals(uName)) game.removeMyself(deadMeat);
+              }else if(isConnected && message.startsWith("Endgame")){
+                JOptionPane.showMessageDialog(gameFrame, message);
               }else if(message!=null && !message.equals("") ){
-                System.out.println(message);
                 String[] temp = message.split(" ");
                 playerMap.put(temp[0], temp[3] + " " + temp[4]);
-                //call function here
                 for(String tempKey : playerMap.keySet()){
                   System.out.println(tempKey + " is at " + playerMap.get(tempKey));
                 }
+                game.moveOthers();
               }//close if
               }
           }
@@ -170,8 +183,6 @@ public class GameClient{
         System.exit(1);
     }
 
-
-
   	chatPanel.setLayout(new BorderLayout());
   	chatPanel.setPreferredSize(new Dimension(580,100));
   	chatPanel.add(chatScroll, BorderLayout.CENTER);
@@ -179,7 +190,6 @@ public class GameClient{
   	gameContainer.add(chatPanel, BorderLayout.SOUTH);
   	gameFrame.pack();
   	gameFrame.setVisible(true);
-
   }//close main
 
   public static void send(String msg){
